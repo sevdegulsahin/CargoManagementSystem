@@ -332,6 +332,15 @@ public class CustomerManagementApp {
         viewShipmentStackButton.setPreferredSize(buttonSize);
         viewShipmentStackButton.setMinimumSize(buttonSize);
 
+        JButton sortShipmentsButton = new JButton("Gönderileri Teslim Süresine Göre Sırala");
+        sortShipmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sortShipmentsButton.setBackground(Color.decode("#ffe5ec"));
+        sortShipmentsButton.setForeground(Color.decode("#043565"));
+        sortShipmentsButton.setMaximumSize(buttonSize);
+        sortShipmentsButton.setPreferredSize(buttonSize);
+        sortShipmentsButton.setMinimumSize(buttonSize);
+
+
         JButton showDeliveryRouteButton = new JButton("Teslimat Rotasını Göster");
         showDeliveryRouteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         showDeliveryRouteButton.setBackground(Color.decode("#ffe5ec"));
@@ -377,6 +386,8 @@ public class CustomerManagementApp {
         panel.add(Box.createVerticalStrut(10));
         panel.add(viewShipmentStackButton);
         panel.add(Box.createVerticalStrut(10));
+        panel.add(sortShipmentsButton);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(showDeliveryRouteButton);
         panel.add(Box.createVerticalStrut(10));
         panel.add(printRoutesButton);
@@ -394,6 +405,7 @@ public class CustomerManagementApp {
         searchShipmentButton.addActionListener(e -> searchShipment());
         deleteShipmentButton.addActionListener(e -> deleteShipment());
         viewShipmentStackButton.addActionListener(e -> viewShipmentStack());
+        sortShipmentsButton.addActionListener(e -> sortShipmentsByDeliveryTime());
         showDeliveryRouteButton.addActionListener(e -> showDeliveryRoute());
         printRoutesButton.addActionListener(e -> {
             String targetCity = JOptionPane.showInputDialog("Hedef şehri girin:");
