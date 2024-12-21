@@ -75,7 +75,7 @@ public class TreeNode {
         int maxDepth = cityTreeRoot.calculateDepth(cityTreeRoot, 0);
         System.out.println("Ağaç yapısının derinliği: " + maxDepth);
     }
-    
+
     // Şehir ekleme fonksiyonu
     public void addChild(TreeNode child) {
         this.children.add(child);

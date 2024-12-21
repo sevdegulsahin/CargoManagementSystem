@@ -740,39 +740,6 @@ public class CustomerManagementApp {
 
 
 
-    // Teslim edilmiş kargoları ID'ye göre binary search ile bulma
-    private void searchDeliveredShipments() {
-        // Tüm teslim edilmiş kargoları bir listeye ekle
-        List<Shipment> deliveredShipments = new ArrayList<>();
-        for (Customer customer : customers) {
-            for (Shipment shipment : customer.getShipmentHistory()) {
-                if ("Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus())) {
-                    deliveredShipments.add(shipment);
-                }
-            }
-        }
-        // ID'ye göre sıralama
-        deliveredShipments.sort(Comparator.comparingInt(Shipment::getShipmentID));
-
-        // Kullanıcıdan arama yapmak için ID al
-        String input = JOptionPane.showInputDialog("Aramak istediğiniz kargo ID'sini girin:");
-        try {
-            int searchID = Integer.parseInt(input);
-
-            // Binary search
-            int index = binarySearch(deliveredShipments, searchID);
-            if (index != -1) {
-                Shipment shipment = deliveredShipments.get(index);
-                JOptionPane.showMessageDialog(null, "Kargo Bulundu:\n" + shipment);
-            } else {
-                JOptionPane.showMessageDialog(null, "Kargo bulunamadı.");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Geçerli bir ID giriniz.");
-        }
-    }
-
-
     // Binary search algoritması
     private int binarySearch(List<Shipment> list, int searchID) {
         int left = 0, right = list.size() - 1;
