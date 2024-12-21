@@ -15,6 +15,9 @@ public class TreeNode {
         this.deliveryTime = depth; // Derinlik ile teslimat süresini ilişkilendiriyoruz
         this.cargoCount = 0;
     }
+    public TreeNode() {
+
+    }
 
     // Derinlik hesaplamak için recursive fonksiyon
     public int calculateDepth(TreeNode node, int currentDepth) {
@@ -25,7 +28,7 @@ public class TreeNode {
         }
         return maxDepth;
     }
-    private void initializeCityTree() {
+    void initializeCityTree() {
         TreeNode cityTreeRoot = new TreeNode("Istanbul", 1); // Root şehri derinliği 0
 
         // Birinci seviye şehirler
