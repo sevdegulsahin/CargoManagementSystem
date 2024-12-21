@@ -34,11 +34,10 @@ public class GUI {
         // Panelin arka plan rengini ayarla
         panel.setBackground(Color.decode("#ADD8E6")); // Açık mavi
 
-
         // Görsel ekleme
         panel.add(Box.createVerticalStrut(20)); // Üst boşluk
         panel.add(headerLabel);
-        panel.add(Box.createVerticalStrut(20)); // Görsel alt boşluk
+        panel.add(Box.createVerticalStrut(30)); // Görsel alt boşluk
 
         // Küçük ikon boyutları
         int buttonIconSize = 50;
@@ -46,158 +45,166 @@ public class GUI {
         // İkonları yükle ve ölçeklendir
         ImageIcon addCustomerIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
         ImageIcon addShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/kargoekle.jpg"));
-        ImageIcon viewAllCustomersIcon = new ImageIcon(Icons.class.getResource("/Resources/tümmüsterilerigor.jpg"));
+        ImageIcon viewAllCustomersIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon viewCustomerHistoryIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon updateShipmentStatusIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon checkShipmentStatusIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon searchShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon deleteShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon viewShipmentStackIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon sortShipmentsIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon showDeliveryRouteIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon printRoutesFromShipmentsIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
 
-        Image customerImage = addCustomerIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH);
-        addCustomerIcon = new ImageIcon(customerImage);
+        // İkonları boyutlandır
+        addCustomerIcon = new ImageIcon(addCustomerIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        addShipmentIcon = new ImageIcon(addShipmentIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        viewAllCustomersIcon = new ImageIcon(viewAllCustomersIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        viewCustomerHistoryIcon = new ImageIcon(viewCustomerHistoryIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        updateShipmentStatusIcon = new ImageIcon(updateShipmentStatusIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        checkShipmentStatusIcon = new ImageIcon(checkShipmentStatusIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        searchShipmentIcon = new ImageIcon(searchShipmentIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        deleteShipmentIcon = new ImageIcon(deleteShipmentIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        viewShipmentStackIcon = new ImageIcon(viewShipmentStackIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        sortShipmentsIcon = new ImageIcon(sortShipmentsIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        showDeliveryRouteIcon = new ImageIcon(showDeliveryRouteIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
+        printRoutesFromShipmentsIcon = new ImageIcon(printRoutesFromShipmentsIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
 
-        Image shipmentImage = addShipmentIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH);
-        addShipmentIcon = new ImageIcon(shipmentImage);
-
-        Image viewAllCustomersImage = viewAllCustomersIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH);
-        viewAllCustomersIcon = new ImageIcon(viewAllCustomersImage);
-
-        // Butonları oluşturma
-
-        // Üstteki resmin genişliğini referans olarak alıyoruz
-        int buttonWidth = headerWidth; // headerWidth, üstteki resmin genişliği (300)
-        int buttonHeight = 50; // Sabit bir yükseklik
+        // Butonlar için boyutlar
+        int buttonWidth = buttonIconSize; // Buton genişliği
+        int buttonHeight = buttonIconSize + 20; // Buton yüksekliği (ikon + yazı)
 
         // Butonlar için ortak boyut ayarı
         Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
 
-
+        // Butonları oluşturma ve düzenleme
         JButton addCustomerButton = new JButton(addCustomerIcon);
         addCustomerButton.setText("Müşteri Ekle");
-        addCustomerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addCustomerButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        addCustomerButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         addCustomerButton.setBackground(Color.decode("#ffe5ec"));
         addCustomerButton.setForeground(Color.decode("#043565"));
-        addCustomerButton.setMaximumSize(buttonSize);
         addCustomerButton.setPreferredSize(buttonSize);
-        addCustomerButton.setMinimumSize(buttonSize);
+
 
         JButton addShipmentButton = new JButton(addShipmentIcon);
         addShipmentButton.setText("Gönderi Ekle");
-        addShipmentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addShipmentButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        addShipmentButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         addShipmentButton.setBackground(Color.decode("#ffe5ec"));
         addShipmentButton.setForeground(Color.decode("#043565"));
-        addShipmentButton.setMaximumSize(buttonSize);
         addShipmentButton.setPreferredSize(buttonSize);
-        addShipmentButton.setMinimumSize(buttonSize);
 
         JButton viewAllCustomersButton = new JButton(viewAllCustomersIcon);
         viewAllCustomersButton.setText("Tüm Müşterileri Gör");
-        viewAllCustomersButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        viewAllCustomersButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        viewAllCustomersButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         viewAllCustomersButton.setBackground(Color.decode("#ffe5ec"));
         viewAllCustomersButton.setForeground(Color.decode("#043565"));
-        viewAllCustomersButton.setMaximumSize(buttonSize);
         viewAllCustomersButton.setPreferredSize(buttonSize);
-        viewAllCustomersButton.setMinimumSize(buttonSize);
 
-        JButton viewCustomerHistoryButton = new JButton("Müşteri Geçmişini Gör(Son 5 Gönderi)");
-        viewCustomerHistoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton viewCustomerHistoryButton = new JButton(viewCustomerHistoryIcon);
+        viewCustomerHistoryButton.setText("Müşteri Geçmişini Gör");
+        viewCustomerHistoryButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        viewCustomerHistoryButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         viewCustomerHistoryButton.setBackground(Color.decode("#ffe5ec"));
         viewCustomerHistoryButton.setForeground(Color.decode("#043565"));
-        viewCustomerHistoryButton.setMaximumSize(buttonSize);
         viewCustomerHistoryButton.setPreferredSize(buttonSize);
-        viewCustomerHistoryButton.setMinimumSize(buttonSize);
 
-
-        JButton updateShipmentStatusButton = new JButton("Gönderi Durumunu Güncelle");
-        updateShipmentStatusButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton updateShipmentStatusButton = new JButton(updateShipmentStatusIcon);
+        updateShipmentStatusButton.setText("Gönderi Durumunu Güncelle");
+        updateShipmentStatusButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        updateShipmentStatusButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         updateShipmentStatusButton.setBackground(Color.decode("#ffe5ec"));
         updateShipmentStatusButton.setForeground(Color.decode("#043565"));
-        updateShipmentStatusButton.setMaximumSize(buttonSize);
         updateShipmentStatusButton.setPreferredSize(buttonSize);
-        updateShipmentStatusButton.setMinimumSize(buttonSize);
 
-
-        JButton checkShipmentStatusButton = new JButton("Kargo Durumu Sorgula");
-        checkShipmentStatusButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton checkShipmentStatusButton = new JButton(checkShipmentStatusIcon);
+        checkShipmentStatusButton.setText("Kargo Durumu Sorgula");
+        checkShipmentStatusButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        checkShipmentStatusButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         checkShipmentStatusButton.setBackground(Color.decode("#ffe5ec"));
         checkShipmentStatusButton.setForeground(Color.decode("#043565"));
-        checkShipmentStatusButton.setMaximumSize(buttonSize);
         checkShipmentStatusButton.setPreferredSize(buttonSize);
-        checkShipmentStatusButton.setMinimumSize(buttonSize);
 
-
-        JButton searchShipmentButton = new JButton("Gönderi Ara");
-        searchShipmentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton searchShipmentButton = new JButton(searchShipmentIcon);
+        searchShipmentButton.setText("Gönderi Ara");
+        searchShipmentButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        searchShipmentButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         searchShipmentButton.setBackground(Color.decode("#ffe5ec"));
         searchShipmentButton.setForeground(Color.decode("#043565"));
-        searchShipmentButton.setMaximumSize(buttonSize);
         searchShipmentButton.setPreferredSize(buttonSize);
-        searchShipmentButton.setMinimumSize(buttonSize);
 
-
-        JButton deleteShipmentButton = new JButton("Gönderi Sil");
-        deleteShipmentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton deleteShipmentButton = new JButton(deleteShipmentIcon);
+        deleteShipmentButton.setText("Gönderi Sil");
+        deleteShipmentButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        deleteShipmentButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         deleteShipmentButton.setBackground(Color.decode("#ffe5ec"));
         deleteShipmentButton.setForeground(Color.decode("#043565"));
-        deleteShipmentButton.setMaximumSize(buttonSize);
         deleteShipmentButton.setPreferredSize(buttonSize);
-        deleteShipmentButton.setMinimumSize(buttonSize);
 
-        JButton viewShipmentStackButton = new JButton("Tüm Gönderileri Listele(Sipariş Sırasına Göre)");
-        viewShipmentStackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton viewShipmentStackButton = new JButton(viewShipmentStackIcon);
+        viewShipmentStackButton.setText("Tüm Gönderileri Listele");
+        viewShipmentStackButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        viewShipmentStackButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         viewShipmentStackButton.setBackground(Color.decode("#ffe5ec"));
         viewShipmentStackButton.setForeground(Color.decode("#043565"));
-        viewShipmentStackButton.setMaximumSize(buttonSize);
         viewShipmentStackButton.setPreferredSize(buttonSize);
-        viewShipmentStackButton.setMinimumSize(buttonSize);
 
-        JButton sortShipmentsButton = new JButton("Tüm Gönderileri Listele(Teslimat Süresine Göre)");
-        sortShipmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton sortShipmentsButton = new JButton(sortShipmentsIcon);
+        sortShipmentsButton.setText("Gönderileri Listele");
+        sortShipmentsButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        sortShipmentsButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         sortShipmentsButton.setBackground(Color.decode("#ffe5ec"));
         sortShipmentsButton.setForeground(Color.decode("#043565"));
-        sortShipmentsButton.setMaximumSize(buttonSize);
         sortShipmentsButton.setPreferredSize(buttonSize);
-        sortShipmentsButton.setMinimumSize(buttonSize);
 
-
-        JButton showDeliveryRouteButton = new JButton("Rota Ağaç Şeması");
-        showDeliveryRouteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton showDeliveryRouteButton = new JButton(showDeliveryRouteIcon);
+        showDeliveryRouteButton.setText("Teslimat Rotasını Göster");
+        showDeliveryRouteButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        showDeliveryRouteButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         showDeliveryRouteButton.setBackground(Color.decode("#ffe5ec"));
         showDeliveryRouteButton.setForeground(Color.decode("#043565"));
-        showDeliveryRouteButton.setMaximumSize(buttonSize);
         showDeliveryRouteButton.setPreferredSize(buttonSize);
-        showDeliveryRouteButton.setMinimumSize(buttonSize);
 
-        JButton printRoutesFromShipmentsButton = new JButton("Gönderi Rotası");
-        printRoutesFromShipmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JButton printRoutesFromShipmentsButton = new JButton(printRoutesFromShipmentsIcon);
+        printRoutesFromShipmentsButton.setText("Gönderi Rotasını Yazdır");
+        printRoutesFromShipmentsButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        printRoutesFromShipmentsButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         printRoutesFromShipmentsButton.setBackground(Color.decode("#ffe5ec"));
         printRoutesFromShipmentsButton.setForeground(Color.decode("#043565"));
-        printRoutesFromShipmentsButton.setMaximumSize(buttonSize);
         printRoutesFromShipmentsButton.setPreferredSize(buttonSize);
-        printRoutesFromShipmentsButton.setMinimumSize(buttonSize);
 
+        // Butonlar için paneller oluşturma
+        JPanel row1 = new JPanel();
+        row1.setLayout(new GridLayout(1, 3, 0, 30)); // 3 sütun, 10px aralık
+        row1.add(addCustomerButton);
+        row1.add(addShipmentButton);
+        row1.add(viewAllCustomersButton);
 
+        JPanel row2 = new JPanel();
+        row2.setLayout(new GridLayout(1, 3, 0, 30)); // 3 sütun, 10px aralık
+        row2.add(viewCustomerHistoryButton);
+        row2.add(updateShipmentStatusButton);
+        row2.add(checkShipmentStatusButton);
 
-        // Butonları panele ekleme
-        panel.add(addCustomerButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(addShipmentButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(viewAllCustomersButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(viewCustomerHistoryButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(updateShipmentStatusButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(checkShipmentStatusButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(searchShipmentButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(deleteShipmentButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(viewShipmentStackButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(sortShipmentsButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(showDeliveryRouteButton);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(printRoutesFromShipmentsButton);
-        panel.add(Box.createVerticalStrut(10));
+        JPanel row3 = new JPanel();
+        row3.setLayout(new GridLayout(1, 3, 0, 30)); // 3 sütun, 10px aralık
+        row3.add(searchShipmentButton);
+        row3.add(deleteShipmentButton);
+        row3.add(viewShipmentStackButton);
+
+        JPanel row4 = new JPanel();
+        row4.setLayout(new GridLayout(1, 3, 0, 30)); // 3 sütun, 10px aralık
+        row4.add(sortShipmentsButton);
+        row4.add(showDeliveryRouteButton);
+        row4.add(printRoutesFromShipmentsButton);
+
+        // Panelleri ana panele ekleme
+        panel.add(row1);
+        panel.add(row2);
+        panel.add(row3);
+        panel.add(row4);
 
         // ActionListener ekleme
         addCustomerButton.addActionListener(e -> customerManagementApp.addCustomerDialog());

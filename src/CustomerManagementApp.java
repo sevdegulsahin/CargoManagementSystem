@@ -191,6 +191,8 @@ public class CustomerManagementApp {
 
 
 
+
+
     public void sortShipmentsByDeliveryTime() {
         // PriorityQueue, teslim süresine göre sıralamak için kullanılır.
         PriorityQueue<Shipment> shipmentQueue = new PriorityQueue<>(Comparator.comparingInt(Shipment::getDeliveryTime));
@@ -223,9 +225,8 @@ public class CustomerManagementApp {
         panel.add(addButton);
 
         dialog.add(panel);
+        Set<Integer> customerIds = new HashSet<>(); // Benzersiz ID'leri tutmak için
         addButton.addActionListener(e -> {
-            Set<Integer> customerIds = new HashSet<>(); // Benzersiz ID'leri tutmak için
-
             try {
                 Random random = new Random();
                 int id;
@@ -247,7 +248,6 @@ public class CustomerManagementApp {
                 JOptionPane.showMessageDialog(dialog, "Müşteri eklerken hata oluştu.");
             }
         });
-
 
         dialog.setVisible(true);
     }
@@ -442,10 +442,18 @@ public class CustomerManagementApp {
         if (allShipmentsStack.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Hiç gönderi bulunamadı.");
         } else {
-            // Stack'teki gönderileri sırasıyla alıp ekrana yazdırıyoruz
+            // Geçici bir liste kullanarak stack'in içeriğini koruyoruz
+            Stack<Shipment> tempStack = new Stack<>();
+
             while (!allShipmentsStack.isEmpty()) {
-                Shipment shipment = allShipmentsStack.pop(); // En son eklenen gönderi ilk olarak alınır (LIFO)
+                Shipment shipment = allShipmentsStack.pop();
                 allShipmentsContent.append(shipment).append("\n");
+                tempStack.push(shipment); // Elemanı geçici stack'e ekliyoruz
+            }
+
+            // Geçici stack'teki elemanları orijinal stack'e geri yüklüyoruz
+            while (!tempStack.isEmpty()) {
+                allShipmentsStack.push(tempStack.pop());
             }
 
             // Gönderileri ekrana yazdırıyoruz
@@ -525,6 +533,39 @@ public class CustomerManagementApp {
         });
     }
 
+
+
+    // Teslim edilmiş kargoları ID'ye göre binary search ile bulma
+    private void searchDeliveredShipments() {
+        // Tüm teslim edilmiş kargoları bir listeye ekle
+        List<Shipment> deliveredShipments = new ArrayList<>();
+        for (Customer customer : customers) {
+            for (Shipment shipment : customer.getShipmentHistory()) {
+                if ("Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus())) {
+                    deliveredShipments.add(shipment);
+                }
+            }
+        }
+        // ID'ye göre sıralama
+        deliveredShipments.sort(Comparator.comparingInt(Shipment::getShipmentID));
+
+        // Kullanıcıdan arama yapmak için ID al
+        String input = JOptionPane.showInputDialog("Aramak istediğiniz kargo ID'sini girin:");
+        try {
+            int searchID = Integer.parseInt(input);
+
+            // Binary search
+            int index = binarySearch(deliveredShipments, searchID);
+            if (index != -1) {
+                Shipment shipment = deliveredShipments.get(index);
+                JOptionPane.showMessageDialog(null, "Kargo Bulundu:\n" + shipment);
+            } else {
+                JOptionPane.showMessageDialog(null, "Kargo bulunamadı.");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Geçerli bir ID giriniz.");
+        }
+    }
 
 
     // Binary search algoritması
