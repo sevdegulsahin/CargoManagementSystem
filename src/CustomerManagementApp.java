@@ -88,7 +88,7 @@ public class CustomerManagementApp {
         bursa.children.add(canakkale);
 
         // Daha alt seviyedeki şehirler
-        mersin.children.add(new TreeNode("Kahramanmaraş", 7));
+        mersin.children.add(new TreeNode("K.Maraş", 7));
         mersin.children.add(new TreeNode("Hatay", 7));
 
         kayseri.children.add(new TreeNode("Malatya", 7));
@@ -332,7 +332,7 @@ public class CustomerManagementApp {
         viewShipmentStackButton.setPreferredSize(buttonSize);
         viewShipmentStackButton.setMinimumSize(buttonSize);
 
-        JButton sortShipmentsButton = new JButton("Gönderileri Teslim Süresine Göre Sırala");
+        JButton sortShipmentsButton = new JButton("Tüm gönderiler");
         sortShipmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         sortShipmentsButton.setBackground(Color.decode("#ffe5ec"));
         sortShipmentsButton.setForeground(Color.decode("#043565"));
@@ -341,21 +341,13 @@ public class CustomerManagementApp {
         sortShipmentsButton.setMinimumSize(buttonSize);
 
 
-        JButton showDeliveryRouteButton = new JButton("Teslimat Rotasını Göster");
+        JButton showDeliveryRouteButton = new JButton("Rota Ağaç Şeması");
         showDeliveryRouteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         showDeliveryRouteButton.setBackground(Color.decode("#ffe5ec"));
         showDeliveryRouteButton.setForeground(Color.decode("#043565"));
         showDeliveryRouteButton.setMaximumSize(buttonSize);
         showDeliveryRouteButton.setPreferredSize(buttonSize);
         showDeliveryRouteButton.setMinimumSize(buttonSize);
-
-        JButton printRoutesButton = new JButton("Teslimat Rotalarını Yazdır");
-        printRoutesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        printRoutesButton.setBackground(Color.decode("#ffe5ec"));
-        printRoutesButton.setForeground(Color.decode("#043565"));
-        printRoutesButton.setMaximumSize(buttonSize);
-        printRoutesButton.setPreferredSize(buttonSize);
-        printRoutesButton.setMinimumSize(buttonSize);
 
         JButton printRoutesFromShipmentsButton = new JButton("Gönderi Rotası");
         printRoutesFromShipmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -390,8 +382,6 @@ public class CustomerManagementApp {
         panel.add(Box.createVerticalStrut(10));
         panel.add(showDeliveryRouteButton);
         panel.add(Box.createVerticalStrut(10));
-        panel.add(printRoutesButton);
-        panel.add(Box.createVerticalStrut(10));
         panel.add(printRoutesFromShipmentsButton);
         panel.add(Box.createVerticalStrut(10));
 
@@ -407,29 +397,13 @@ public class CustomerManagementApp {
         viewShipmentStackButton.addActionListener(e -> viewShipmentStack());
         sortShipmentsButton.addActionListener(e -> sortShipmentsByDeliveryTime());
         showDeliveryRouteButton.addActionListener(e -> showDeliveryRoute());
-        printRoutesButton.addActionListener(e -> {
-            String targetCity = JOptionPane.showInputDialog("Hedef şehri girin:");
-            if (targetCity != null && !targetCity.trim().isEmpty()) {
-                List<String> path = getPathToCity(targetCity.trim());
-                StringBuilder routeMessage = new StringBuilder("Teslimat rotası:\n");
-                for (String city : path) {
-                    routeMessage.append(city).append("\n");
-                }
-                JOptionPane.showMessageDialog(null, routeMessage.toString());
-            } else {
-                JOptionPane.showMessageDialog(null, "Geçerli bir şehir giriniz!");
-            }
-        });
+
         printRoutesFromShipmentsButton.addActionListener(e -> printRoutesFromShipments());
 
         // Frame'e panel ekleme
         frame.add(panel);
         frame.setVisible(true);
     }
-
-
-
-
     public void sortShipmentsByDeliveryTime() {
         // PriorityQueue, teslim süresine göre sıralamak için kullanılır.
         PriorityQueue<Shipment> shipmentQueue = new PriorityQueue<>(Comparator.comparingInt(Shipment::getDeliveryTime));
