@@ -192,74 +192,209 @@ public class CustomerManagementApp {
 
 
 
-
     public void showGUI() {
         JFrame frame = new JFrame("Müşteri Yönetimi");
+        frame.setSize(800, 700); // Çerçeve boyutu
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 500);
 
+        // Ekranın ortasında açılması
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - frame.getWidth()) / 2;
+        int y = (screenSize.height - frame.getHeight()) / 2;
+        frame.setLocation(x, y);
+
+        // Üst görsel
+        ImageIcon headerIcon = new ImageIcon(Icons.class.getResource("/Resources/skydoves_logo.jpg"));
+        int headerWidth = 500; // Daha büyük genişlik
+        int headerHeight = 200; // Daha büyük yükseklik
+        Image scaledHeaderImage = headerIcon.getImage().getScaledInstance(headerWidth, headerHeight, Image.SCALE_SMOOTH);
+        headerIcon = new ImageIcon(scaledHeaderImage);
+
+        JLabel headerLabel = new JLabel(headerIcon);
+        headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Ortalanmış görsel
+
+        // Panel ayarları
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));  // Dikey olarak BoxLayout ekledik.
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        // Kare ikon boyutları
-        int buttonSize = 100;  // Butonların ikonlarının kare boyutu 100x100 olacak şekilde sabitlendi.
+        // Panelin arka plan rengini ayarla
+        panel.setBackground(Color.decode("#ADD8E6")); // Açık mavi
 
-        // İkonları yükle ve kare boyutlarda ölçeklendir
+
+        // Görsel ekleme
+        panel.add(Box.createVerticalStrut(20)); // Üst boşluk
+        panel.add(headerLabel);
+        panel.add(Box.createVerticalStrut(20)); // Görsel alt boşluk
+
+        // Küçük ikon boyutları
+        int buttonIconSize = 50;
+
+        // İkonları yükle ve ölçeklendir
         ImageIcon addCustomerIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
         ImageIcon addShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/kargoekle.jpg"));
-        ImageIcon viewAllCustomersIcon = new ImageIcon(Icons.class.getResource("/Resources/tümmüsterilerigor.jpg"));  // Yeni ikon
+        ImageIcon viewAllCustomersIcon = new ImageIcon(Icons.class.getResource("/Resources/tümmüsterilerigor.jpg"));
 
-        Image customerImage = addCustomerIcon.getImage().getScaledInstance(buttonSize, buttonSize, Image.SCALE_SMOOTH);
+        Image customerImage = addCustomerIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH);
         addCustomerIcon = new ImageIcon(customerImage);
 
-        Image shipmentImage = addShipmentIcon.getImage().getScaledInstance(buttonSize, buttonSize, Image.SCALE_SMOOTH);
+        Image shipmentImage = addShipmentIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH);
         addShipmentIcon = new ImageIcon(shipmentImage);
 
-        Image viewAllCustomersImage = viewAllCustomersIcon.getImage().getScaledInstance(buttonSize, buttonSize, Image.SCALE_SMOOTH);
+        Image viewAllCustomersImage = viewAllCustomersIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH);
         viewAllCustomersIcon = new ImageIcon(viewAllCustomersImage);
 
-        JButton addCustomerButton = new JButton(addCustomerIcon);  // sadece ikon atanır
-        addCustomerButton.setText("Müşteri Ekle");  // metin eklenir
+        // Butonları oluşturma
+
+        // Üstteki resmin genişliğini referans olarak alıyoruz
+        int buttonWidth = headerWidth; // headerWidth, üstteki resmin genişliği (300)
+        int buttonHeight = 50; // Sabit bir yükseklik
+
+        // Butonlar için ortak boyut ayarı
+        Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
+
+
+        JButton addCustomerButton = new JButton(addCustomerIcon);
+        addCustomerButton.setText("Müşteri Ekle");
+        addCustomerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addCustomerButton.setBackground(Color.decode("#ffe5ec"));
+        addCustomerButton.setForeground(Color.decode("#043565"));
+        addCustomerButton.setMaximumSize(buttonSize);
+        addCustomerButton.setPreferredSize(buttonSize);
+        addCustomerButton.setMinimumSize(buttonSize);
 
         JButton addShipmentButton = new JButton(addShipmentIcon);
-        addShipmentButton.setText("Gönderi Ekle");  // metin eklenir
+        addShipmentButton.setText("Gönderi Ekle");
+        addShipmentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addShipmentButton.setBackground(Color.decode("#ffe5ec"));
+        addShipmentButton.setForeground(Color.decode("#043565"));
+        addShipmentButton.setMaximumSize(buttonSize);
+        addShipmentButton.setPreferredSize(buttonSize);
+        addShipmentButton.setMinimumSize(buttonSize);
 
         JButton viewAllCustomersButton = new JButton(viewAllCustomersIcon);
-        viewAllCustomersButton.setText("Tüm Müşterileri Gör");  // metin eklenir
+        viewAllCustomersButton.setText("Tüm Müşterileri Gör");
+        viewAllCustomersButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        viewAllCustomersButton.setBackground(Color.decode("#ffe5ec"));
+        viewAllCustomersButton.setForeground(Color.decode("#043565"));
+        viewAllCustomersButton.setMaximumSize(buttonSize);
+        viewAllCustomersButton.setPreferredSize(buttonSize);
+        viewAllCustomersButton.setMinimumSize(buttonSize);
 
         JButton viewCustomerHistoryButton = new JButton("Müşteri Geçmişini Gör");
+        viewCustomerHistoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        viewCustomerHistoryButton.setBackground(Color.decode("#ffe5ec"));
+        viewCustomerHistoryButton.setForeground(Color.decode("#043565"));
+        viewCustomerHistoryButton.setMaximumSize(buttonSize);
+        viewCustomerHistoryButton.setPreferredSize(buttonSize);
+        viewCustomerHistoryButton.setMinimumSize(buttonSize);
+
+
         JButton updateShipmentStatusButton = new JButton("Gönderi Durumunu Güncelle");
+        updateShipmentStatusButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        updateShipmentStatusButton.setBackground(Color.decode("#ffe5ec"));
+        updateShipmentStatusButton.setForeground(Color.decode("#043565"));
+        updateShipmentStatusButton.setMaximumSize(buttonSize);
+        updateShipmentStatusButton.setPreferredSize(buttonSize);
+        updateShipmentStatusButton.setMinimumSize(buttonSize);
+
+
+        JButton checkShipmentStatusButton = new JButton("Kargo Durumu Sorgula");
+        checkShipmentStatusButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        checkShipmentStatusButton.setBackground(Color.decode("#ffe5ec"));
+        checkShipmentStatusButton.setForeground(Color.decode("#043565"));
+        checkShipmentStatusButton.setMaximumSize(buttonSize);
+        checkShipmentStatusButton.setPreferredSize(buttonSize);
+        checkShipmentStatusButton.setMinimumSize(buttonSize);
+
+
         JButton searchShipmentButton = new JButton("Gönderi Ara");
+        searchShipmentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        searchShipmentButton.setBackground(Color.decode("#ffe5ec"));
+        searchShipmentButton.setForeground(Color.decode("#043565"));
+        searchShipmentButton.setMaximumSize(buttonSize);
+        searchShipmentButton.setPreferredSize(buttonSize);
+        searchShipmentButton.setMinimumSize(buttonSize);
+
+
         JButton deleteShipmentButton = new JButton("Gönderi Sil");
+        deleteShipmentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        deleteShipmentButton.setBackground(Color.decode("#ffe5ec"));
+        deleteShipmentButton.setForeground(Color.decode("#043565"));
+        deleteShipmentButton.setMaximumSize(buttonSize);
+        deleteShipmentButton.setPreferredSize(buttonSize);
+        deleteShipmentButton.setMinimumSize(buttonSize);
+
         JButton viewShipmentStackButton = new JButton("Son 5 Gönderiyi Gör");
+        viewShipmentStackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        viewShipmentStackButton.setBackground(Color.decode("#ffe5ec"));
+        viewShipmentStackButton.setForeground(Color.decode("#043565"));
+        viewShipmentStackButton.setMaximumSize(buttonSize);
+        viewShipmentStackButton.setPreferredSize(buttonSize);
+        viewShipmentStackButton.setMinimumSize(buttonSize);
+
         JButton showDeliveryRouteButton = new JButton("Teslimat Rotasını Göster");
+        showDeliveryRouteButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        showDeliveryRouteButton.setBackground(Color.decode("#ffe5ec"));
+        showDeliveryRouteButton.setForeground(Color.decode("#043565"));
+        showDeliveryRouteButton.setMaximumSize(buttonSize);
+        showDeliveryRouteButton.setPreferredSize(buttonSize);
+        showDeliveryRouteButton.setMinimumSize(buttonSize);
 
+        JButton printRoutesButton = new JButton("Teslimat Rotalarını Yazdır");
+        printRoutesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        printRoutesButton.setBackground(Color.decode("#ffe5ec"));
+        printRoutesButton.setForeground(Color.decode("#043565"));
+        printRoutesButton.setMaximumSize(buttonSize);
+        printRoutesButton.setPreferredSize(buttonSize);
+        printRoutesButton.setMinimumSize(buttonSize);
+
+        JButton printRoutesFromShipmentsButton = new JButton("Gönderi Rotası");
+        printRoutesFromShipmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        printRoutesFromShipmentsButton.setBackground(Color.decode("#ffe5ec"));
+        printRoutesFromShipmentsButton.setForeground(Color.decode("#043565"));
+        printRoutesFromShipmentsButton.setMaximumSize(buttonSize);
+        printRoutesFromShipmentsButton.setPreferredSize(buttonSize);
+        printRoutesFromShipmentsButton.setMinimumSize(buttonSize);
+
+
+
+        // Butonları panele ekleme
         panel.add(addCustomerButton);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(addShipmentButton);
-        panel.add(viewAllCustomersButton);  // Buton eklendi
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(viewAllCustomersButton);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(viewCustomerHistoryButton);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(updateShipmentStatusButton);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(checkShipmentStatusButton);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(searchShipmentButton);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(deleteShipmentButton);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(viewShipmentStackButton);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(showDeliveryRouteButton);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(printRoutesButton);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(printRoutesFromShipmentsButton);
+        panel.add(Box.createVerticalStrut(10));
 
+        // ActionListener ekleme
         addCustomerButton.addActionListener(e -> addCustomerDialog());
         addShipmentButton.addActionListener(e -> addShipmentDialog());
         viewAllCustomersButton.addActionListener(e -> viewAllCustomers());
         viewCustomerHistoryButton.addActionListener(e -> viewCustomerHistory());
         updateShipmentStatusButton.addActionListener(e -> updateShipmentStatus());
+        checkShipmentStatusButton.addActionListener(e -> checkShipmentStatus());
         searchShipmentButton.addActionListener(e -> searchShipment());
         deleteShipmentButton.addActionListener(e -> deleteShipment());
         viewShipmentStackButton.addActionListener(e -> viewShipmentStack());
         showDeliveryRouteButton.addActionListener(e -> showDeliveryRoute());
-        JButton sortShipmentsButton = new JButton("Gönderileri Teslim Süresine Göre Sırala");
-        panel.add(sortShipmentsButton);
-        sortShipmentsButton.addActionListener(e -> sortShipmentsByDeliveryTime());
-
-// Yeni butonu burada tanımlıyoruz
-        JButton printRoutesButton = new JButton("Teslimat Rotalarını Yazdır");
-        panel.add(printRoutesButton);
         printRoutesButton.addActionListener(e -> {
             String targetCity = JOptionPane.showInputDialog("Hedef şehri girin:");
             if (targetCity != null && !targetCity.trim().isEmpty()) {
@@ -273,17 +408,16 @@ public class CustomerManagementApp {
                 JOptionPane.showMessageDialog(null, "Geçerli bir şehir giriniz!");
             }
         });
-        JButton printRoutesFromShipmentsButton = new JButton("Gönderi Rotası");
-        panel.add(printRoutesFromShipmentsButton);
         printRoutesFromShipmentsButton.addActionListener(e -> printRoutesFromShipments());
 
-
-
-
-
+        // Frame'e panel ekleme
         frame.add(panel);
         frame.setVisible(true);
     }
+
+
+
+
     public void sortShipmentsByDeliveryTime() {
         // PriorityQueue, teslim süresine göre sıralamak için kullanılır.
         PriorityQueue<Shipment> shipmentQueue = new PriorityQueue<>(Comparator.comparingInt(Shipment::getDeliveryTime));
@@ -525,6 +659,197 @@ public class CustomerManagementApp {
         frame.setSize(800, 600);
         frame.setVisible(true);
     }
+
+
+    public void checkShipmentStatus() {
+        // Kullanıcının oluşturduğu gönderilerden seçim yapabileceği bir pencere
+        JFrame dialog = new JFrame("Kargo Durumu Sorgula");
+        dialog.setSize(500, 300);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Kullanıcının tüm kargolarını listelemek için bir JComboBox
+        JComboBox<String> shipmentSelector = new JComboBox<>();
+        Map<String, Shipment> shipmentMap = new HashMap<>();
+
+        // Kullanıcıya ait tüm kargoları ekle
+        for (Customer customer : customers) {
+            for (Shipment shipment : customer.getShipmentHistory()) {
+                String display = "ID: " + shipment.getShipmentID() + ", Şehir: " + shipment.getCity();
+                shipmentSelector.addItem(display);
+                shipmentMap.put(display, shipment);
+            }
+        }
+
+        JButton checkButton = new JButton("Durumu Kontrol Et");
+
+        panel.add(new JLabel("Kargonuzu Seçin:"));
+        panel.add(shipmentSelector);
+        panel.add(checkButton);
+
+        dialog.add(panel);
+        dialog.setVisible(true);
+
+        // Seçim sonrası işlem yapma
+        checkButton.addActionListener(e -> {
+            String selectedItem = (String) shipmentSelector.getSelectedItem();
+            if (selectedItem != null) {
+                Shipment selectedShipment = shipmentMap.get(selectedItem);
+
+                if (selectedShipment != null) {
+                    // Teslim durumu kontrolü
+                    String status = selectedShipment.getDeliveryStatus();
+                    if ("Teslim Edildi".equalsIgnoreCase(status)) {
+                        JOptionPane.showMessageDialog(dialog, "Seçilen kargo teslim edilmiştir.");
+                    } else {
+                        // Teslim edilmemiş kargolar için kalan gün hesaplama
+                        int remainingDays = selectedShipment.getDeliveryTime() - selectedShipment.getPassedDays();
+                        if (remainingDays > 0) {
+                            JOptionPane.showMessageDialog(dialog,
+                                    "Seçilen kargo henüz teslim edilmedi.\nTeslim edilmesine kalan gün sayısı: " + remainingDays);
+                        } else {
+                            JOptionPane.showMessageDialog(dialog,
+                                    "Seçilen kargo teslim edilmesi gereken süreyi aşmıştır!");
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(dialog, "Kargo bulunamadı!");
+                }
+            }
+        });
+    }
+
+
+
+    // Teslim edilmiş kargoları ID'ye göre binary search ile bulma
+    private void searchDeliveredShipments() {
+        // Tüm teslim edilmiş kargoları bir listeye ekle
+        List<Shipment> deliveredShipments = new ArrayList<>();
+        for (Customer customer : customers) {
+            for (Shipment shipment : customer.getShipmentHistory()) {
+                if ("Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus())) {
+                    deliveredShipments.add(shipment);
+                }
+            }
+        }
+        // ID'ye göre sıralama
+        deliveredShipments.sort(Comparator.comparingInt(Shipment::getShipmentID));
+
+        // Kullanıcıdan arama yapmak için ID al
+        String input = JOptionPane.showInputDialog("Aramak istediğiniz kargo ID'sini girin:");
+        try {
+            int searchID = Integer.parseInt(input);
+
+            // Binary search
+            int index = binarySearch(deliveredShipments, searchID);
+            if (index != -1) {
+                Shipment shipment = deliveredShipments.get(index);
+                JOptionPane.showMessageDialog(null, "Kargo Bulundu:\n" + shipment);
+            } else {
+                JOptionPane.showMessageDialog(null, "Kargo bulunamadı.");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Geçerli bir ID giriniz.");
+        }
+    }
+
+
+    // Binary search algoritması
+    private int binarySearch(List<Shipment> list, int searchID) {
+        int left = 0, right = list.size() - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (list.get(mid).getShipmentID() == searchID) {
+                return mid;
+            }
+            if (list.get(mid).getShipmentID() < searchID) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1; // Bulunamadı
+    }
+
+    // Teslim edilmemiş kargoları teslimat süresine göre sıralama
+    private void sortUndeliveredShipments() {
+        // Teslim edilmemiş kargoları bir listeye ekle
+        List<Shipment> undeliveredShipments = new ArrayList<>();
+        for (Customer customer : customers) {
+            for (Shipment shipment : customer.getShipmentHistory()) {
+                if (!"Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus())) {
+                    undeliveredShipments.add(shipment);
+                }
+            }
+        }
+
+        // Teslimat süresine göre merge sort ile sıralama
+        mergeSort(undeliveredShipments, 0, undeliveredShipments.size() - 1);
+
+        // Sonuçları göster
+        StringBuilder result = new StringBuilder("Teslim Edilmemiş Kargolar (Teslimat Süresine Göre):\n");
+        for (Shipment shipment : undeliveredShipments) {
+            result.append("ID: ").append(shipment.getShipmentID())
+                    .append(", Şehir: ").append(shipment.getCity())
+                    .append(", Teslimat Süresi: ").append(shipment.getDeliveryTime())
+                    .append(" gün\n");
+        }
+        JOptionPane.showMessageDialog(null, result.toString());
+    }
+
+
+
+    // Merge Sort algoritması
+    private void mergeSort(List<Shipment> list, int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            mergeSort(list, left, mid);
+            mergeSort(list, mid + 1, right);
+
+            merge(list, left, mid, right);
+        }
+    }
+
+    private void merge(List<Shipment> list, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        List<Shipment> leftList = new ArrayList<>();
+        List<Shipment> rightList = new ArrayList<>();
+
+        for (int i = 0; i < n1; ++i)
+            leftList.add(list.get(left + i));
+        for (int j = 0; j < n2; ++j)
+            rightList.add(list.get(mid + 1 + j));
+
+        int i = 0, j = 0;
+        int k = left;
+        while (i < n1 && j < n2) {
+            if (leftList.get(i).getDeliveryTime() <= rightList.get(j).getDeliveryTime()) {
+                list.set(k, leftList.get(i));
+                i++;
+            } else {
+                list.set(k, rightList.get(j));
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            list.set(k, leftList.get(i));
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            list.set(k, rightList.get(j));
+            j++;
+            k++;
+        }
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             CustomerManagementApp app = new CustomerManagementApp();

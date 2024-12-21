@@ -1,14 +1,16 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 class Shipment implements Comparable<Shipment> {
-    private int shipmentID;
-    private String date;
-    String deliveryStatus;
-    private int deliveryTime;
-    private String city;
-    private Customer customer;
+    private int shipmentID; // Kargo ID'si
+    private String date; // Gönderim tarihi, "yyyy-MM-dd" formatında
+    String deliveryStatus; // Teslimat durumu (örneğin: "Teslim Edildi" veya "Teslim Edilmedi")
+    private int deliveryTime; // Teslimat süresi (gün olarak tahmin edilen süre)
+    private String city; // Gönderim şehri
+    private Customer customer; // Kargonun sahibi olan müşteri
 
+    // Constructor
     public Shipment(int shipmentID, String date, String deliveryStatus, int deliveryTime, String city, Customer customer) {
         this.shipmentID = shipmentID;
         this.date = date;
@@ -18,10 +20,21 @@ class Shipment implements Comparable<Shipment> {
         this.customer = customer;
     }
 
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
+    // Gönderim tarihinden itibaren geçen gün sayısını hesaplar
+    public int getPassedDays() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate shipmentDate = LocalDate.parse(date, formatter); // Tarihi parse eder
+        LocalDate currentDate = LocalDate.now(); // Bugünün tarihini alır
+        return (int) ChronoUnit.DAYS.between(shipmentDate, currentDate); // Geçen günleri hesaplar
     }
 
+    // Teslim edilmesine kalan gün sayısını hesaplar
+    public int getRemainingDays() {
+        int passedDays = getPassedDays(); // Geçen gün sayısını alır
+        return deliveryTime - passedDays; // Tahmini teslim süresinden geçen günleri çıkarır
+    }
+
+    // Getter ve Setter'lar
     public int getShipmentID() {
         return shipmentID;
     }
@@ -45,36 +58,19 @@ class Shipment implements Comparable<Shipment> {
     public Customer getCustomer() {
         return customer;
     }
-    private String getRoute(TreeNode root, String targetCity) {
-        List<String> path = new ArrayList<>();
-        if (findPath(root, targetCity, path)) {
-            return String.join(" -> ", path); // Rotayı "İstanbul -> Ankara -> İzmir" formatında döndür
-        }
-        return "Rota bulunamadı";
+
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 
-    private boolean findPath(TreeNode current, String targetCity, List<String> path) {
-        if (current == null) {
-            return false;
-        }
-        path.add(current.city);
-        if (current.city.equals(targetCity)) {
-            return true;
-        }
-        for (TreeNode child : current.children) {
-            if (findPath(child, targetCity, path)) {
-                return true;
-            }
-        }
-        path.remove(path.size() - 1);
-        return false;
-    }
-
+    // toString metodu, kargonun bilgilerini okunabilir formatta döner
     @Override
     public String toString() {
-        return "Shipment ID: " + shipmentID + ", Date: " + date + ", Status: " + deliveryStatus + ", Delivery Time: " + deliveryTime + " days, City: " + city + ", Customer: " + customer.getName();
+        return "Shipment ID: " + shipmentID + ", Date: " + date + ", Status: " + deliveryStatus
+                + ", Delivery Time: " + deliveryTime + " days, City: " + city + ", Customer: " + customer.getName();
     }
 
+    // compareTo metodu, kargoları teslim süresine göre sıralar
     @Override
     public int compareTo(Shipment other) {
         return Integer.compare(this.deliveryTime, other.deliveryTime);
