@@ -16,6 +16,33 @@ public class CustomerManagementApp {
     public CustomerManagementApp() {
         initializeCityTree();
     }
+    // Şehir ağacında İstanbul'dan hedef şehre kadar olan yolu bulan fonksiyon
+    public List<String> getPathToCity(String targetCity) {
+        List<String> path = new ArrayList<>();
+        if (findPath(cityTreeRoot, targetCity, path)) {
+            return path;
+        } else {
+            return Collections.singletonList("Hedef şehir bulunamadı!");
+        }
+    }
+
+    // Yardımcı fonksiyon: Şehir yolunu bulur
+    private boolean findPath(TreeNode current, String targetCity, List<String> path) {
+        if (current == null) {
+            return false;
+        }
+        path.add(current.city);
+        if (current.city.equals(targetCity)) {
+            return true;
+        }
+        for (TreeNode child : current.children) {
+            if (findPath(child, targetCity, path)) {
+                return true;
+            }
+        }
+        path.remove(path.size() - 1);
+        return false;
+    }
 
     // Şehir ağacında ilgili şehir düğümünü arayan fonksiyon
     private TreeNode findCityNode(String city, TreeNode root) {
@@ -99,6 +126,68 @@ public class CustomerManagementApp {
 
 
 
+    public void printRoutesFromShipments() {
+        // Müşteri listesi kontrolü
+        if (customers.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Hiç müşteri kaydı yok!");
+            return;
+        }
+
+        // Müşteri seçimi için bir JComboBox oluştur
+        DefaultComboBoxModel<String> customerModel = new DefaultComboBoxModel<>();
+        for (Customer customer : customers) {
+            customerModel.addElement("ID: " + customer.getCustomerID() + " - " + customer.getName());
+        }
+
+        JComboBox<String> customerComboBox = new JComboBox<>(customerModel);
+        int result = JOptionPane.showConfirmDialog(null, customerComboBox, "Müşteri Seçin", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            // Seçilen müşteri
+            String selectedCustomerText = (String) customerComboBox.getSelectedItem();
+            int customerID = Integer.parseInt(selectedCustomerText.split(" - ")[0].replace("ID: ", "").trim());
+
+            Customer selectedCustomer = null;
+            for (Customer customer : customers) {
+                if (customer.getCustomerID() == customerID) {
+                    selectedCustomer = customer;
+                    break;
+                }
+            }
+
+            if (selectedCustomer != null) {
+                // Gönderi listesi kontrolü
+                if (selectedCustomer.getShipmentHistory().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Seçilen müşterinin gönderisi yok!");
+                    return;
+                }
+
+                // Gönderi seçimi için bir JComboBox oluştur
+                DefaultComboBoxModel<String> shipmentModel = new DefaultComboBoxModel<>();
+                for (Shipment shipment : selectedCustomer.getShipmentHistory()) {
+                    shipmentModel.addElement("ID: " + shipment.getShipmentID() + " - Şehir: " + shipment.getCity());
+                }
+
+                JComboBox<String> shipmentComboBox = new JComboBox<>(shipmentModel);
+                int shipmentResult = JOptionPane.showConfirmDialog(null, shipmentComboBox, "Gönderi Seçin", JOptionPane.OK_CANCEL_OPTION);
+
+                if (shipmentResult == JOptionPane.OK_OPTION) {
+                    // Seçilen gönderi
+                    String selectedShipmentText = (String) shipmentComboBox.getSelectedItem();
+                    String cityName = selectedShipmentText.split(" - Şehir: ")[1].trim();
+
+                    // Rotayı hesapla ve göster
+                    List<String> path = getPathToCity(cityName);
+                    StringBuilder routeMessage = new StringBuilder("Teslimat rotası:\n");
+                    for (String city : path) {
+                        routeMessage.append(city).append("\n");
+                    }
+
+                    JOptionPane.showMessageDialog(null, routeMessage.toString());
+                }
+            }
+        }
+    }
 
 
 
@@ -168,8 +257,28 @@ public class CustomerManagementApp {
         panel.add(sortShipmentsButton);
         sortShipmentsButton.addActionListener(e -> sortShipmentsByDeliveryTime());
 
+// Yeni butonu burada tanımlıyoruz
         JButton printRoutesButton = new JButton("Teslimat Rotalarını Yazdır");
         panel.add(printRoutesButton);
+        printRoutesButton.addActionListener(e -> {
+            String targetCity = JOptionPane.showInputDialog("Hedef şehri girin:");
+            if (targetCity != null && !targetCity.trim().isEmpty()) {
+                List<String> path = getPathToCity(targetCity.trim());
+                StringBuilder routeMessage = new StringBuilder("Teslimat rotası:\n");
+                for (String city : path) {
+                    routeMessage.append(city).append("\n");
+                }
+                JOptionPane.showMessageDialog(null, routeMessage.toString());
+            } else {
+                JOptionPane.showMessageDialog(null, "Geçerli bir şehir giriniz!");
+            }
+        });
+        JButton printRoutesFromShipmentsButton = new JButton("Gönderi Rotası");
+        panel.add(printRoutesFromShipmentsButton);
+        printRoutesFromShipmentsButton.addActionListener(e -> printRoutesFromShipments());
+
+
+
 
 
         frame.add(panel);
@@ -191,6 +300,7 @@ public class CustomerManagementApp {
         }
         JOptionPane.showMessageDialog(null, sortedShipments.toString());
     }
+
 
     public void addCustomerDialog() {
         JFrame dialog = new JFrame("Müşteri Ekle");

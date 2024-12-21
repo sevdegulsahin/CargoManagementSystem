@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 class Shipment implements Comparable<Shipment> {
     private int shipmentID;
@@ -42,6 +44,30 @@ class Shipment implements Comparable<Shipment> {
 
     public Customer getCustomer() {
         return customer;
+    }
+    private String getRoute(TreeNode root, String targetCity) {
+        List<String> path = new ArrayList<>();
+        if (findPath(root, targetCity, path)) {
+            return String.join(" -> ", path); // Rotayı "İstanbul -> Ankara -> İzmir" formatında döndür
+        }
+        return "Rota bulunamadı";
+    }
+
+    private boolean findPath(TreeNode current, String targetCity, List<String> path) {
+        if (current == null) {
+            return false;
+        }
+        path.add(current.city);
+        if (current.city.equals(targetCity)) {
+            return true;
+        }
+        for (TreeNode child : current.children) {
+            if (findPath(child, targetCity, path)) {
+                return true;
+            }
+        }
+        path.remove(path.size() - 1);
+        return false;
     }
 
     @Override
