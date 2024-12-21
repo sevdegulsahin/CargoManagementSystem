@@ -280,7 +280,7 @@ public class CustomerManagementApp {
         viewAllCustomersButton.setPreferredSize(buttonSize);
         viewAllCustomersButton.setMinimumSize(buttonSize);
 
-        JButton viewCustomerHistoryButton = new JButton("Müşteri Geçmişini Gör");
+        JButton viewCustomerHistoryButton = new JButton("Müşteri Geçmişini Gör(Son 5 Gönderi)");
         viewCustomerHistoryButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         viewCustomerHistoryButton.setBackground(Color.decode("#ffe5ec"));
         viewCustomerHistoryButton.setForeground(Color.decode("#043565"));
@@ -324,7 +324,7 @@ public class CustomerManagementApp {
         deleteShipmentButton.setPreferredSize(buttonSize);
         deleteShipmentButton.setMinimumSize(buttonSize);
 
-        JButton viewShipmentStackButton = new JButton("Son 5 Gönderiyi Gör");
+        JButton viewShipmentStackButton = new JButton("Tüm Gönderileri Listele(Sipariş Sırasına Göre)");
         viewShipmentStackButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         viewShipmentStackButton.setBackground(Color.decode("#ffe5ec"));
         viewShipmentStackButton.setForeground(Color.decode("#043565"));
@@ -332,7 +332,7 @@ public class CustomerManagementApp {
         viewShipmentStackButton.setPreferredSize(buttonSize);
         viewShipmentStackButton.setMinimumSize(buttonSize);
 
-        JButton sortShipmentsButton = new JButton("Tüm gönderiler");
+        JButton sortShipmentsButton = new JButton("Tüm Gönderileri Listele(Teslimat Süresine Göre)");
         sortShipmentsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         sortShipmentsButton.setBackground(Color.decode("#ffe5ec"));
         sortShipmentsButton.setForeground(Color.decode("#043565"));
@@ -394,7 +394,7 @@ public class CustomerManagementApp {
         checkShipmentStatusButton.addActionListener(e -> checkShipmentStatus());
         searchShipmentButton.addActionListener(e -> searchShipment());
         deleteShipmentButton.addActionListener(e -> deleteShipment());
-        viewShipmentStackButton.addActionListener(e -> viewShipmentStack());
+        viewShipmentStackButton.addActionListener(e -> listAllShipments());
         sortShipmentsButton.addActionListener(e -> sortShipmentsByDeliveryTime());
         showDeliveryRouteButton.addActionListener(e -> showDeliveryRoute());
 
@@ -426,7 +426,7 @@ public class CustomerManagementApp {
         JFrame dialog = new JFrame("Müşteri Ekle");
         dialog.setSize(300, 200);
 
-        JLabel nameLabel = new JLabel("Adı:");
+        JLabel nameLabel = new JLabel("Adı-Soyadı:");
         JTextField nameField = new JTextField();
         JButton addButton = new JButton("Ekle");
         JPanel panel = new JPanel(new GridLayout(2, 2));
@@ -517,7 +517,7 @@ public class CustomerManagementApp {
                         String currentDate = sdf.format(new Date());
                         // Gönderi oluştur ve müşteri geçmişine ekle
                         Shipment shipment = new Shipment(shipmentIDCounter++, currentDate, "Beklemede", deliveryTime, city, selectedCustomer);
-                        selectedCustomer.addShipment(shipment);
+                        selectedCustomer.addShipment(shipment, this);
 
                         JOptionPane.showMessageDialog(dialog, "Gönderi başarıyla eklendi.\nTeslimat Süresi: " + shipment.getDeliveryTime() + " gün.\nGönderi ID: " + shipment.getShipmentID());
                         dialog.dispose();
@@ -566,16 +566,27 @@ public class CustomerManagementApp {
         for (Customer customer : customers) {
             if (customer.getName().equalsIgnoreCase(customerName)) {
                 StringBuilder history = new StringBuilder("Müşteri Geçmişi:\n");
-                for (Shipment shipment : customer.getShipmentHistory()) {
+
+                // Müşterinin gönderi geçmişi LinkedList olarak alınıyor
+                LinkedList<Shipment> shipments = customer.getShipmentStack(); // ShipmentStack alıyoruz
+
+                // ListIterator ile listenin sonuna gidiyoruz
+                ListIterator<Shipment> iterator = shipments.listIterator(shipments.size());  // Son elemana başlatıyoruz
+                int count = 0;
+
+                // Son 5 gönderiyi alıyoruz
+                while (iterator.hasPrevious() && count < 5) {
+                    Shipment shipment = iterator.previous();  // Ters yönde ilerliyoruz
                     history.append(shipment).append("\n");
+                    count++;
                 }
+
                 JOptionPane.showMessageDialog(null, history.toString());
                 return;
             }
         }
         JOptionPane.showMessageDialog(null, "Müşteri bulunamadı.");
     }
-
     public void updateShipmentStatus() {
         String shipmentID = JOptionPane.showInputDialog("Durumunu güncellemek istediğiniz gönderi ID'sini girin:");
         for (Customer customer : customers) {
@@ -619,19 +630,29 @@ public class CustomerManagementApp {
         }
         JOptionPane.showMessageDialog(null, "Gönderi bulunamadı.");
     }
+    // Global Stack tanımlaması (Bu sınıfın içinde tanımlayın, örneğin, ana yönetim sınıfınızda)
+    private Stack<Shipment> allShipmentsStack = new Stack<>();
+    // Gönderiyi global stack'e ekleme metodu
+    public void addShipmentToGlobalStack(Shipment shipment) {
+        allShipmentsStack.push(shipment); // Gönderi stack'e ekleniyor
+    }
 
-    public void viewShipmentStack() {
-        StringBuilder stackContent = new StringBuilder("Son 5 Gönderi:\n");
-        for (Customer customer : customers) {
-            if (!customer.getShipmentStack().isEmpty()) {
-                for (Shipment shipment : customer.getShipmentStack()) {
-                    stackContent.append(shipment).append("\n");
-                }
-                JOptionPane.showMessageDialog(null, stackContent.toString());
-                return;
+    public void listAllShipments() {
+        StringBuilder allShipmentsContent = new StringBuilder("Tüm Gönderiler:\n");
+
+        // Eğer stack boşsa, kullanıcıya bildiriyoruz
+        if (allShipmentsStack.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Hiç gönderi bulunamadı.");
+        } else {
+            // Stack'teki gönderileri sırasıyla alıp ekrana yazdırıyoruz
+            while (!allShipmentsStack.isEmpty()) {
+                Shipment shipment = allShipmentsStack.pop(); // En son eklenen gönderi ilk olarak alınır (LIFO)
+                allShipmentsContent.append(shipment).append("\n");
             }
+
+            // Gönderileri ekrana yazdırıyoruz
+            JOptionPane.showMessageDialog(null, allShipmentsContent.toString());
         }
-        JOptionPane.showMessageDialog(null, "Son 5 gönderi bulunamadı.");
     }
 
     public void showDeliveryRoute() {
