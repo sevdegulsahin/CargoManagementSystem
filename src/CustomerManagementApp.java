@@ -5,6 +5,7 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class CustomerManagementApp {
     private LinkedList<Customer> customers = new LinkedList<>();
@@ -163,11 +164,33 @@ public class CustomerManagementApp {
         deleteShipmentButton.addActionListener(e -> deleteShipment());
         viewShipmentStackButton.addActionListener(e -> viewShipmentStack());
         showDeliveryRouteButton.addActionListener(e -> showDeliveryRoute());
+        JButton sortShipmentsButton = new JButton("Gönderileri Teslim Süresine Göre Sırala");
+        panel.add(sortShipmentsButton);
+        sortShipmentsButton.addActionListener(e -> sortShipmentsByDeliveryTime());
+
+        JButton printRoutesButton = new JButton("Teslimat Rotalarını Yazdır");
+        panel.add(printRoutesButton);
+
 
         frame.add(panel);
         frame.setVisible(true);
     }
+    public void sortShipmentsByDeliveryTime() {
+        // PriorityQueue, teslim süresine göre sıralamak için kullanılır.
+        PriorityQueue<Shipment> shipmentQueue = new PriorityQueue<>(Comparator.comparingInt(Shipment::getDeliveryTime));
 
+        // Her müşteri için gönderi geçmişi ekleyin
+        for (Customer customer : customers) {
+            shipmentQueue.addAll(customer.getShipmentHistory());
+        }
+
+        // Sıralı gönderileri gösterme
+        StringBuilder sortedShipments = new StringBuilder("Teslim Süresine Göre Sıralı Gönderiler:\n");
+        while (!shipmentQueue.isEmpty()) {
+            sortedShipments.append(shipmentQueue.poll()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, sortedShipments.toString());
+    }
 
     public void addCustomerDialog() {
         JFrame dialog = new JFrame("Müşteri Ekle");
