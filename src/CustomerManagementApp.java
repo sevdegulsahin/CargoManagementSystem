@@ -436,10 +436,20 @@ public class CustomerManagementApp {
         panel.add(addButton);
 
         dialog.add(panel);
-
         addButton.addActionListener(e -> {
+            Set<Integer> customerIds = new HashSet<>(); // Benzersiz ID'leri tutmak için
+
             try {
-                int id = new Random().nextInt(10000);
+                Random random = new Random();
+                int id;
+
+                // Benzersiz bir ID bulunana kadar döngü
+                do {
+                    id = 10000 + random.nextInt(90000); // 10000-99999 arasında sayı üretir
+                } while (customerIds.contains(id));
+
+                customerIds.add(id); // Yeni ID'yi listeye ekle
+
                 String name = nameField.getText();
                 Customer newCustomer = new Customer(id, name);
                 customers.add(newCustomer);
@@ -450,6 +460,7 @@ public class CustomerManagementApp {
                 JOptionPane.showMessageDialog(dialog, "Müşteri eklerken hata oluştu.");
             }
         });
+
 
         dialog.setVisible(true);
     }
