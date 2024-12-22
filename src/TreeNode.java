@@ -27,42 +27,6 @@ public class TreeNode {
         return maxDepth;
     }
 
-    // Şehir ekleme fonksiyonu
-    public void addChild(TreeNode child) {
-        this.children.add(child);
-    }
 
-    // Diğer getter ve setter metotları
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public List<TreeNode> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<TreeNode> children) {
-        this.children = children;
-    }
-
-    public int getDepth() {
-        return depth;
-    }
-
-    public int getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public int getCargoCount() {
-        return cargoCount;
-    }
-
-    public void setCargoCount(int cargoCount) {
-        this.cargoCount = cargoCount;
-    }
 
 }

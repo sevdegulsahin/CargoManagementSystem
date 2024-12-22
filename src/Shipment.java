@@ -28,11 +28,6 @@ class Shipment implements Comparable<Shipment> {
         return (int) ChronoUnit.DAYS.between(shipmentDate, currentDate); // Geçen günleri hesaplar
     }
 
-    // Teslim edilmesine kalan gün sayısını hesaplar
-    public int getRemainingDays() {
-        int passedDays = getPassedDays(); // Geçen gün sayısını alır
-        return deliveryTime - passedDays; // Tahmini teslim süresinden geçen günleri çıkarır
-    }
 
     // Getter ve Setter'lar
     public int getShipmentID() {
