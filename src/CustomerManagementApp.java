@@ -316,6 +316,8 @@ public class CustomerManagementApp {
             customerComboBoxModel.addElement("ID: " + customer.getCustomerID() + " - " + customer.getName());
         }
         JComboBox<String> customerComboBox = new JComboBox<>(customerComboBoxModel);
+        customerComboBox.setBackground(Color.decode("#ffe5ec")); // Pembe arka plan
+        customerComboBox.setForeground(Color.decode("#012a4a")); // Lacivert yazı rengi
 
         // Şehir etiketinin yazı rengini beyaz yapıyoruz
         JLabel cityLabel = new JLabel("Teslimat Şehri:");
@@ -324,6 +326,8 @@ public class CustomerManagementApp {
         // Şehirler için ComboBox
         java.util.List<String> cityNames = getAllCityNames(cityTreeRoot);
         JComboBox<String> cityComboBox = new JComboBox<>(cityNames.toArray(new String[0]));
+        cityComboBox.setBackground(Color.decode("#ffe5ec")); // Pembe arka plan
+        cityComboBox.setForeground(Color.decode("#012a4a")); // Lacivert yazı rengi
 
         // Ekle butonunun arka plan rengini pembe, yazı rengini lacivert yapıyoruz
         JButton addButton = new JButton("Ekle");
@@ -404,6 +408,7 @@ public class CustomerManagementApp {
 
         dialog.setVisible(true);
     }
+
 
 
     // CityTree'deki tüm şehirleri alacak fonksiyon
