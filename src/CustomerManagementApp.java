@@ -58,56 +58,61 @@ public class CustomerManagementApp {
         }
         return null;
     }
-    private void initializeCityTree() {
-        cityTreeRoot = new TreeNode("Istanbul", 1);
 
-        // Birinci seviye şehirler
-        TreeNode ankara = new TreeNode("Ankara", 2);
-        TreeNode kastamonu = new TreeNode("Kastamonu", 2);
-        TreeNode bursa = new TreeNode("Bursa", 2);
+    private void initializeCityTree() {
+        // İstanbul'un ID'si 34
+        cityTreeRoot = new TreeNode(34, "Istanbul", 1);
+
+        // Birinci seviye şehirler (Plaka kodlarına göre ID'ler)
+        TreeNode ankara = new TreeNode(6, "Ankara", 2);
+        TreeNode kastamonu = new TreeNode(37, "Kastamonu", 2);
+        TreeNode bursa = new TreeNode(16, "Bursa", 2);
 
         // Ankara'nın alt şehirleri
-        TreeNode mersin = new TreeNode("Mersin", 4);
-        TreeNode kayseri = new TreeNode("Kayseri", 4);
+        TreeNode mersin = new TreeNode(33, "Mersin", 4);
+        TreeNode kayseri = new TreeNode(38, "Kayseri", 4);
         ankara.children.add(mersin);
         ankara.children.add(kayseri);
 
-        // Izmir'in alt şehirleri
-        TreeNode tokat = new TreeNode("Tokat", 4);
-        TreeNode giresun = new TreeNode("Giresun", 4);
+        // Kastamonu'nun alt şehirleri
+        TreeNode tokat = new TreeNode(60, "Tokat", 4);
+        TreeNode giresun = new TreeNode(28, "Giresun", 4);
         kastamonu.children.add(tokat);
         kastamonu.children.add(giresun);
 
         // Bursa'nın alt şehirleri
-        TreeNode i̇zmir = new TreeNode("İzmir", 4);
-        TreeNode canakkale = new TreeNode("Çanakkale", 4);
-        bursa.children.add(i̇zmir);
+        TreeNode izmir = new TreeNode(35, "İzmir", 4);
+        TreeNode canakkale = new TreeNode(17, "Çanakkale", 4);
+        bursa.children.add(izmir);
         bursa.children.add(canakkale);
 
         // Daha alt seviyedeki şehirler
-        mersin.children.add(new TreeNode("K.Maraş", 7));
-        mersin.children.add(new TreeNode("Hatay", 7));
+        mersin.children.add(new TreeNode(46, "K.Maraş", 7));
+        mersin.children.add(new TreeNode(31, "Hatay", 7));
 
-        kayseri.children.add(new TreeNode("Malatya", 7));
-        kayseri.children.add(new TreeNode("Elazığ", 7));
+        kayseri.children.add(new TreeNode(44, "Malatya", 7));
+        kayseri.children.add(new TreeNode(23, "Elazığ", 7));
 
-        tokat.children.add(new TreeNode("Erzincan", 7));
-        tokat.children.add(new TreeNode("Sivas", 7));
+        tokat.children.add(new TreeNode(24, "Erzincan", 7));
+        tokat.children.add(new TreeNode(58, "Sivas", 7));
 
-        giresun.children.add(new TreeNode("Erzurum", 7));
-        giresun.children.add(new TreeNode("Rize", 7));
+        giresun.children.add(new TreeNode(25, "Erzurum", 7));
+        giresun.children.add(new TreeNode(53, "Rize", 7));
 
-        i̇zmir.children.add(new TreeNode("Muğla", 7));
-        i̇zmir.children.add(new TreeNode("Antalya", 7));
+        izmir.children.add(new TreeNode(48, "Muğla", 7));
+        izmir.children.add(new TreeNode(7, "Antalya", 7));
 
-
+        // Şehirleri kök düğüme ekliyoruz
         cityTreeRoot.children.add(ankara);
         cityTreeRoot.children.add(kastamonu);
         cityTreeRoot.children.add(bursa);
 
+        // En derinliği hesapla
         int maxDepth = cityTreeRoot.calculateDepth(cityTreeRoot, 0);
-
     }
+
+
+
 
     // Teslimat süresi hesaplamak için bir fonksiyon
     public int getDeliveryTimeForCity(String cityName) {
