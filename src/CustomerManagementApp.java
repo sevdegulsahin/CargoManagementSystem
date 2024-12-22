@@ -216,19 +216,24 @@ public class CustomerManagementApp {
 
         // Sıralı gönderileri gösterme
         StringBuilder sortedShipments = new StringBuilder("Teslim Süresine Göre Sıralı Gönderiler:\n");
-        while (!shipmentQueue.isEmpty()) {
-            sortedShipments.append(shipmentQueue.poll()).append("\n");
+        if (shipmentQueue.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Hiç gönderi bulunmamaktadır.", "Uyarı", JOptionPane.WARNING_MESSAGE);
+        } else {
+            while (!shipmentQueue.isEmpty()) {
+                sortedShipments.append(shipmentQueue.poll()).append("\n");
+            }
+
+            // UIManager renk ayarları
+            UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+            UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+            UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+            UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+            UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
+            JOptionPane.showMessageDialog(null, sortedShipments.toString(), "Sıralı Gönderiler", JOptionPane.INFORMATION_MESSAGE);
         }
-
-        // UIManager renk ayarları
-        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
-        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
-        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
-        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
-        UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
-
-        JOptionPane.showMessageDialog(null, sortedShipments.toString(), "Sıralı Gönderiler", JOptionPane.INFORMATION_MESSAGE);
     }
+
 
 
 
