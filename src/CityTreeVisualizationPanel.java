@@ -33,7 +33,7 @@ class CityTreeVisualizationPanel extends JPanel {
 
     private void drawTree(Graphics g, TreeNode node, int x, int y, int xOffset, int yOffset) {
         // Düğümü çiz (Pembe)
-        g.setColor(Color.MAGENTA);
+        g.setColor(Color.BLACK);
         g.fillOval(x - 5, y - 5, 10, 10);  // Şehir noktası
 
         // Şehir adını ve kargo sayısını yazdır (Siyah)
@@ -54,7 +54,7 @@ class CityTreeVisualizationPanel extends JPanel {
             int childX = childXBase + i * xOffset;
 
             // Çizgiyi mavi renkte çiz
-            g.setColor(Color.BLUE);  // Çizgi rengi mavi
+            g.setColor(Color.BLACK);  // Çizgi rengi mavi
             g.drawLine(x, y, childX, childY);  // Çizgi
 
             // Çocuğu çizmek için recursive çağrı

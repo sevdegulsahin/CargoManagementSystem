@@ -113,7 +113,7 @@ public class CustomerManagementApp {
         cityTreeRoot.children.add(bursa);
 
         int maxDepth = cityTreeRoot.calculateDepth(cityTreeRoot, 0);
-        System.out.println("Ağaç yapısının derinliği: " + maxDepth);
+
     }
 
     // Teslimat süresi hesaplamak için bir fonksiyon
@@ -680,24 +680,38 @@ public class CustomerManagementApp {
 
         // Teslim edilmiş kargoları arama butonu
         searchDeliveredButton.addActionListener(e -> {
-            int searchID = Integer.parseInt(JOptionPane.showInputDialog("Aramak istediğiniz kargo ID'sini girin:"));
-            List<Shipment> deliveredShipments = new ArrayList<>();
-            for (Customer customer : customers) {
-                for (Shipment shipment : customer.getShipmentHistory()) {
-                    if ("Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus())) {
-                        deliveredShipments.add(shipment);
+            // Kullanıcıdan kargo ID'sini al
+            String input = JOptionPane.showInputDialog("Aramak istediğiniz kargo ID'sini girin:");
+
+            // Cancel butonuna basıldığında input null olur
+            if (input == null) {
+                return; // Hiçbir işlem yapma ve fonksiyonu sonlandır
+            }
+
+            try {
+                int searchID = Integer.parseInt(input);
+
+                List<Shipment> deliveredShipments = new ArrayList<>();
+                for (Customer customer : customers) {
+                    for (Shipment shipment : customer.getShipmentHistory()) {
+                        if ("Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus())) {
+                            deliveredShipments.add(shipment);
+                        }
                     }
                 }
-            }
-            // Kargoları ID'ye göre sıralayın
-            deliveredShipments.sort(Comparator.comparingInt(Shipment::getShipmentID));
 
-            // Binary Search ile arama yapın
-            int index = binarySearch(deliveredShipments, searchID);
-            if (index != -1) {
-                JOptionPane.showMessageDialog(dialog, "Kargo bulundu: " + deliveredShipments.get(index));
-            } else {
-                JOptionPane.showMessageDialog(dialog, "Kargo bulunamadı.");
+                // Kargoları ID'ye göre sıralayın
+                deliveredShipments.sort(Comparator.comparingInt(Shipment::getShipmentID));
+
+                // Binary Search ile arama yapın
+                int index = binarySearch(deliveredShipments, searchID);
+                if (index != -1) {
+                    JOptionPane.showMessageDialog(dialog, "Kargo bulundu: " + deliveredShipments.get(index));
+                } else {
+                    JOptionPane.showMessageDialog(dialog, "Kargo bulunamadı.");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(dialog, "Geçersiz ID formatı. Lütfen geçerli bir sayı girin.");
             }
         });
     }
