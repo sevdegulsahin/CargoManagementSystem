@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GUI {
-     CustomerManagementApp customerManagementApp = new CustomerManagementApp ();
+    CustomerManagementApp customerManagementApp = new CustomerManagementApp ();
 
     public void showGUI() {
         JFrame frame = new JFrame("Müşteri Yönetimi");
@@ -32,7 +32,7 @@ public class GUI {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Panelin arka plan rengini ayarla
-        panel.setBackground(Color.decode("#ADD8E6")); // Açık mavi
+        panel.setBackground(Color.decode("#012a4a")); // lacivert
 
         // Görsel ekleme
         panel.add(Box.createVerticalStrut(20)); // Üst boşluk
@@ -43,18 +43,18 @@ public class GUI {
         int buttonIconSize = 50;
 
         // İkonları yükle ve ölçeklendir
-        ImageIcon addCustomerIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon addShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/kargoekle.jpg"));
-        ImageIcon viewAllCustomersIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon viewCustomerHistoryIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon updateShipmentStatusIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon checkShipmentStatusIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon searchShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon deleteShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon viewShipmentStackIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon sortShipmentsIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon showDeliveryRouteIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
-        ImageIcon printRoutesFromShipmentsIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriekle.jpg"));
+        ImageIcon addCustomerIcon = new ImageIcon(Icons.class.getResource("/Resources/musteri_ekle4.png"));
+        ImageIcon addShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/gonderi_ekle.png"));
+        ImageIcon viewAllCustomersIcon = new ImageIcon(Icons.class.getResource("/Resources/musteriler2.png"));
+        ImageIcon viewCustomerHistoryIcon = new ImageIcon(Icons.class.getResource("/Resources/musteri_gecmisi2.png"));
+        ImageIcon updateShipmentStatusIcon = new ImageIcon(Icons.class.getResource("/Resources/gonderi_guncelle2.png"));
+        ImageIcon checkShipmentStatusIcon = new ImageIcon(Icons.class.getResource("/Resources/kargo_sorgu.png"));
+        ImageIcon searchShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/gonderi_ara.png"));
+        ImageIcon deleteShipmentIcon = new ImageIcon(Icons.class.getResource("/Resources/gonderi_sil3.png"));
+        ImageIcon viewShipmentStackIcon = new ImageIcon(Icons.class.getResource("/Resources/tum_kargolar2.png"));
+        ImageIcon sortShipmentsIcon = new ImageIcon(Icons.class.getResource("/Resources/teslimat_suresi3.png"));
+        ImageIcon showDeliveryRouteIcon = new ImageIcon(Icons.class.getResource("/Resources/agac_sema.png"));
+        ImageIcon printRoutesFromShipmentsIcon = new ImageIcon(Icons.class.getResource("/Resources/konum_resmi.png"));
 
         // İkonları boyutlandır
         addCustomerIcon = new ImageIcon(addCustomerIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
@@ -85,6 +85,7 @@ public class GUI {
         addCustomerButton.setBackground(Color.decode("#ffe5ec"));
         addCustomerButton.setForeground(Color.decode("#043565"));
         addCustomerButton.setPreferredSize(buttonSize);
+
 
 
         JButton addShipmentButton = new JButton(addShipmentIcon);
@@ -144,7 +145,7 @@ public class GUI {
         deleteShipmentButton.setPreferredSize(buttonSize);
 
         JButton viewShipmentStackButton = new JButton(viewShipmentStackIcon);
-        viewShipmentStackButton.setText("Tüm Gönderileri Listele");
+        viewShipmentStackButton.setText("Tüm Gönderiler");
         viewShipmentStackButton.setHorizontalTextPosition(SwingConstants.CENTER);
         viewShipmentStackButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         viewShipmentStackButton.setBackground(Color.decode("#ffe5ec"));
@@ -152,7 +153,7 @@ public class GUI {
         viewShipmentStackButton.setPreferredSize(buttonSize);
 
         JButton sortShipmentsButton = new JButton(sortShipmentsIcon);
-        sortShipmentsButton.setText("Gönderileri Listele");
+        sortShipmentsButton.setText("Teslimat süresine göre gönderiler");
         sortShipmentsButton.setHorizontalTextPosition(SwingConstants.CENTER);
         sortShipmentsButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         sortShipmentsButton.setBackground(Color.decode("#ffe5ec"));
@@ -160,7 +161,7 @@ public class GUI {
         sortShipmentsButton.setPreferredSize(buttonSize);
 
         JButton showDeliveryRouteButton = new JButton(showDeliveryRouteIcon);
-        showDeliveryRouteButton.setText("Teslimat Rotasını Göster");
+        showDeliveryRouteButton.setText("Teslimat Rotası Ağaç Şeması");
         showDeliveryRouteButton.setHorizontalTextPosition(SwingConstants.CENTER);
         showDeliveryRouteButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         showDeliveryRouteButton.setBackground(Color.decode("#ffe5ec"));

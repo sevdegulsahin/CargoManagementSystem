@@ -223,10 +223,14 @@ public class CustomerManagementApp {
         JPanel panel = new JPanel(new GridLayout(2, 2));
         panel.add(nameLabel);
         panel.add(nameField);
-        panel.add(new JLabel());
+        panel.add(new JLabel()); // Boş alan
         panel.add(addButton);
 
         dialog.add(panel);
+
+        // Pencerenin ortada açılması
+        dialog.setLocationRelativeTo(null);
+
         addButton.addActionListener(e -> {
             Set<Integer> customerIds = new HashSet<>(); // Benzersiz ID'leri tutmak için
 
@@ -252,9 +256,9 @@ public class CustomerManagementApp {
             }
         });
 
-
         dialog.setVisible(true);
     }
+
 
     public void addShipmentDialog() {
 
@@ -289,6 +293,9 @@ public class CustomerManagementApp {
         panel.add(addButton);
 
         dialog.add(panel);
+
+        // Pencerenin ekranın ortasında açılması için
+        dialog.setLocationRelativeTo(null);
 
         addButton.addActionListener(e -> {
             try {
@@ -405,6 +412,8 @@ public class CustomerManagementApp {
         JOptionPane.showMessageDialog(null, "Müşteri bulunamadı.");
     }
 
+
+
     public void updateShipmentStatus() {
         // Gönderi seçim ekranı
         DefaultComboBoxModel<String> shipmentComboBoxModel = new DefaultComboBoxModel<>();
@@ -416,9 +425,35 @@ public class CustomerManagementApp {
         }
 
         JComboBox<String> shipmentComboBox = new JComboBox<>(shipmentComboBoxModel);
-        int option = JOptionPane.showConfirmDialog(null, shipmentComboBox, "Durumunu güncellemek istediğiniz gönderiyi seçin:", JOptionPane.OK_CANCEL_OPTION);
 
-        if (option == JOptionPane.OK_OPTION) {
+        // ComboBox'u ekleyeceğimiz bir JPanel oluşturuyoruz
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));  // Dikey yerleşim
+        panel.add(new JLabel("Gönderiyi Seçin:"));
+        panel.add(shipmentComboBox);
+
+        // JDialog oluşturuluyor ve ayarlanıyor
+        JDialog dialog = new JDialog();
+        dialog.setTitle("Durumunu Güncelle");
+        dialog.setSize(400, 150);  // Pencere boyutunu ayarlıyoruz
+        dialog.setLocationRelativeTo(null);  // Pencereyi ekranın ortasında açar
+        dialog.setModal(true);  // Dialog modal hale geliyor, yani başka bir pencereye geçilemiyor
+
+        // JPanel'i JDialog'e ekliyoruz
+        dialog.add(panel);
+
+        // Butonlar ekliyoruz
+        JPanel buttonPanel = new JPanel();
+        JButton okButton = new JButton("Tamam");
+        JButton cancelButton = new JButton("İptal");
+        buttonPanel.add(okButton);
+        buttonPanel.add(cancelButton);
+
+        // Butonları panel'e ekliyoruz
+        panel.add(buttonPanel);
+
+        // Ok butonuna tıklanınca işlem yapılır
+        okButton.addActionListener(e -> {
             // Seçilen gönderiyi bulma
             String selectedShipmentText = (String) shipmentComboBox.getSelectedItem();
             if (selectedShipmentText != null) {
@@ -442,17 +477,27 @@ public class CustomerManagementApp {
 
                 // Durum güncelleme işlemi
                 if (selectedShipment != null) {
-                    String newStatus = JOptionPane.showInputDialog("Yeni durum:");
+                    String newStatus = JOptionPane.showInputDialog(dialog, "Yeni durum:");
                     if (newStatus != null && !newStatus.trim().isEmpty()) {
                         selectedShipment.deliveryStatus = newStatus;
-                        JOptionPane.showMessageDialog(null, "Durum başarıyla güncellendi.");
+                        JOptionPane.showMessageDialog(dialog, "Durum başarıyla güncellendi.");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Seçilen gönderi bulunamadı.");
+                    JOptionPane.showMessageDialog(dialog, "Seçilen gönderi bulunamadı.");
                 }
             }
-        }
+        });
+
+        // Cancel butonuna tıklanınca dialog kapanır
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        dialog.setVisible(true);  // Dialog'u görünür yapıyoruz
     }
+
+
+
+
+
 
 
     public void searchShipment() {
