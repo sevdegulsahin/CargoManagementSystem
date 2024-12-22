@@ -16,10 +16,6 @@ public class CustomerManagementApp {
     public CustomerManagementApp() {
         initializeCityTree();
     }
-
-
-
-
     // Şehir ağacında İstanbul'dan hedef şehre kadar olan yolu bulan fonksiyonn
     public List<String> getPathToCity(String targetCity) {
         List<String> path = new ArrayList<>();
@@ -126,10 +122,6 @@ public class CustomerManagementApp {
             return -1; // Şehir bulunamadıysa -1 döndür
         }
     }
-
-
-
-
     public void printRoutesFromShipments() {
         // Müşteri listesi kontrolü
         if (customers.isEmpty()) {
@@ -192,9 +184,6 @@ public class CustomerManagementApp {
             }
         }
     }
-
-
-
     public void sortShipmentsByDeliveryTime() {
         // PriorityQueue, teslim süresine göre sıralamak için kullanılır.
         PriorityQueue<Shipment> shipmentQueue = new PriorityQueue<>(Comparator.comparingInt(Shipment::getDeliveryTime));
@@ -359,9 +348,6 @@ public class CustomerManagementApp {
         }
         return cityNames;
     }
-
-
-
     public void viewAllCustomers() {
         StringBuilder customersList = new StringBuilder("Tüm Müşteriler:\n");
         for (Customer customer : customers) {
@@ -411,9 +397,6 @@ public class CustomerManagementApp {
         }
         JOptionPane.showMessageDialog(null, "Müşteri bulunamadı.");
     }
-
-
-
     public void updateShipmentStatus() {
         // Gönderi seçim ekranı
         DefaultComboBoxModel<String> shipmentComboBoxModel = new DefaultComboBoxModel<>();
@@ -511,14 +494,6 @@ public class CustomerManagementApp {
 
         dialog.setVisible(true); // Dialog'u görünür yapıyoruz
     }
-
-
-
-
-
-
-
-
     public void searchShipment() {
         String shipmentID = JOptionPane.showInputDialog("Aradığınız gönderi ID'sini girin:");
         for (Customer customer : customers) {
@@ -579,9 +554,6 @@ public class CustomerManagementApp {
             JOptionPane.showMessageDialog(null, allShipmentsContent.toString());
         }
     }
-
-
-
     public void showDeliveryRoute() {
         JFrame frame = new JFrame("Teslimat Rotası - Şehirler Ağaç Yapısı");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -715,10 +687,6 @@ public class CustomerManagementApp {
             }
         });
     }
-
-
-
-
     // Binary search algoritması
     private int binarySearch(List<Shipment> list, int searchID) {
         int left = 0, right = list.size() - 1;
@@ -761,9 +729,6 @@ public class CustomerManagementApp {
         }
         JOptionPane.showMessageDialog(null, result.toString());
     }
-
-
-
     // Merge Sort algoritması
     private void mergeSort(List<Shipment> list, int left, int right) {
         if (left < right) {
