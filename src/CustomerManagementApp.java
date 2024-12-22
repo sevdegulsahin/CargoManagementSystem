@@ -16,13 +16,17 @@ public class CustomerManagementApp {
     public CustomerManagementApp() {
         initializeCityTree();
     }
-    // Şehir ağacında İstanbul'dan hedef şehre kadar olan yolu bulan fonksiyon
+
+
+
+
+    // Şehir ağacında İstanbul'dan hedef şehre kadar olan yolu bulan fonksiyonn
     public List<String> getPathToCity(String targetCity) {
         List<String> path = new ArrayList<>();
         if (findPath(cityTreeRoot, targetCity, path)) {
             return path;
         } else {
-            return Collections.singletonList("Hedef şehir bulunamadı!");
+            return Collections.singletonList("Hedef şehir bulunamadı?.....!");
         }
     }
 
@@ -191,8 +195,6 @@ public class CustomerManagementApp {
 
 
 
-
-
     public void sortShipmentsByDeliveryTime() {
         // PriorityQueue, teslim süresine göre sıralamak için kullanılır.
         PriorityQueue<Shipment> shipmentQueue = new PriorityQueue<>(Comparator.comparingInt(Shipment::getDeliveryTime));
@@ -225,8 +227,9 @@ public class CustomerManagementApp {
         panel.add(addButton);
 
         dialog.add(panel);
-        Set<Integer> customerIds = new HashSet<>(); // Benzersiz ID'leri tutmak için
         addButton.addActionListener(e -> {
+            Set<Integer> customerIds = new HashSet<>(); // Benzersiz ID'leri tutmak için
+
             try {
                 Random random = new Random();
                 int id;
@@ -248,6 +251,7 @@ public class CustomerManagementApp {
                 JOptionPane.showMessageDialog(dialog, "Müşteri eklerken hata oluştu.");
             }
         });
+
 
         dialog.setVisible(true);
     }
@@ -360,45 +364,96 @@ public class CustomerManagementApp {
     }
 
     public void viewCustomerHistory() {
-        String customerName = JOptionPane.showInputDialog("Geçmişi görmek istediğiniz müşteri adını girin:");
+        // Müşterilerin adlarını ComboBox'ta göstermek için model oluşturuluyor
+        DefaultComboBoxModel<String> customerComboBoxModel = new DefaultComboBoxModel<>();
         for (Customer customer : customers) {
-            if (customer.getName().equalsIgnoreCase(customerName)) {
-                StringBuilder history = new StringBuilder("Müşteri Geçmişi:\n");
+            customerComboBoxModel.addElement(customer.getName());
+        }
 
-                // Müşterinin gönderi geçmişi LinkedList olarak alınıyor
-                LinkedList<Shipment> shipments = customer.getShipmentStack(); // ShipmentStack alıyoruz
+        // JComboBox oluşturuluyor
+        JComboBox<String> customerComboBox = new JComboBox<>(customerComboBoxModel);
+        int option = JOptionPane.showConfirmDialog(null, customerComboBox, "Geçmişi görmek istediğiniz müşteriyi seçin:", JOptionPane.OK_CANCEL_OPTION);
 
-                // ListIterator ile listenin sonuna gidiyoruz
-                ListIterator<Shipment> iterator = shipments.listIterator(shipments.size());  // Son elemana başlatıyoruz
-                int count = 0;
+        if (option == JOptionPane.OK_OPTION) {
+            String selectedCustomerName = (String) customerComboBox.getSelectedItem();
+            if (selectedCustomerName != null) {
+                // Seçilen müşteri bulunuyor
+                for (Customer customer : customers) {
+                    if (customer.getName().equalsIgnoreCase(selectedCustomerName)) {
+                        StringBuilder history = new StringBuilder("Müşteri Geçmişi:\n");
 
-                // Son 5 gönderiyi alıyoruz
-                while (iterator.hasPrevious() && count < 5) {
-                    Shipment shipment = iterator.previous();  // Ters yönde ilerliyoruz
-                    history.append(shipment).append("\n");
-                    count++;
+                        // Müşterinin gönderi geçmişi LinkedList olarak alınıyor
+                        LinkedList<Shipment> shipments = customer.getShipmentStack(); // ShipmentStack alıyoruz
+
+                        // ListIterator ile listenin sonuna gidiyoruz
+                        ListIterator<Shipment> iterator = shipments.listIterator(shipments.size());  // Son elemana başlatıyoruz
+                        int count = 0;
+
+                        // Son 5 gönderiyi alıyoruz
+                        while (iterator.hasPrevious() && count < 5) {
+                            Shipment shipment = iterator.previous();  // Ters yönde ilerliyoruz
+                            history.append(shipment).append("\n");
+                            count++;
+                        }
+
+                        JOptionPane.showMessageDialog(null, history.toString());
+                        return;
+                    }
                 }
-
-                JOptionPane.showMessageDialog(null, history.toString());
-                return;
             }
         }
         JOptionPane.showMessageDialog(null, "Müşteri bulunamadı.");
     }
+
     public void updateShipmentStatus() {
-        String shipmentID = JOptionPane.showInputDialog("Durumunu güncellemek istediğiniz gönderi ID'sini girin:");
+        // Gönderi seçim ekranı
+        DefaultComboBoxModel<String> shipmentComboBoxModel = new DefaultComboBoxModel<>();
         for (Customer customer : customers) {
             for (Shipment shipment : customer.getShipmentHistory()) {
-                if (String.valueOf(shipment.getShipmentID()).equals(shipmentID)) {
-                    String status = JOptionPane.showInputDialog("Yeni durum:");
-                    shipment.deliveryStatus = status;
-                    JOptionPane.showMessageDialog(null, "Durum başarıyla güncellendi.");
-                    return;
+                // Gönderi bilgilerini ComboBox'a ekleyin (ID göstermeden)
+                shipmentComboBoxModel.addElement("Müşteri: " + customer.getName() + " - Şehir: " + shipment.getCity() + " - Durum: " + shipment.deliveryStatus);
+            }
+        }
+
+        JComboBox<String> shipmentComboBox = new JComboBox<>(shipmentComboBoxModel);
+        int option = JOptionPane.showConfirmDialog(null, shipmentComboBox, "Durumunu güncellemek istediğiniz gönderiyi seçin:", JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            // Seçilen gönderiyi bulma
+            String selectedShipmentText = (String) shipmentComboBox.getSelectedItem();
+            if (selectedShipmentText != null) {
+                String[] shipmentDetails = selectedShipmentText.split(" - ");
+                String customerName = shipmentDetails[0].replace("Müşteri: ", "");
+                String deliveryCity = shipmentDetails[1].replace("Şehir: ", "");
+
+                // Seçilen müşteri ve şehir bilgilerini kullanarak gönderiyi bul
+                Shipment selectedShipment = null;
+                for (Customer customer : customers) {
+                    if (customer.getName().equalsIgnoreCase(customerName)) {
+                        for (Shipment shipment : customer.getShipmentHistory()) {
+                            if (shipment.getCity().equalsIgnoreCase(deliveryCity)) {
+                                selectedShipment = shipment;
+                                break;
+                            }
+                        }
+                    }
+                    if (selectedShipment != null) break;
+                }
+
+                // Durum güncelleme işlemi
+                if (selectedShipment != null) {
+                    String newStatus = JOptionPane.showInputDialog("Yeni durum:");
+                    if (newStatus != null && !newStatus.trim().isEmpty()) {
+                        selectedShipment.deliveryStatus = newStatus;
+                        JOptionPane.showMessageDialog(null, "Durum başarıyla güncellendi.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Seçilen gönderi bulunamadı.");
                 }
             }
         }
-        JOptionPane.showMessageDialog(null, "Gönderi bulunamadı.");
     }
+
 
     public void searchShipment() {
         String shipmentID = JOptionPane.showInputDialog("Aradığınız gönderi ID'sini girin:");
@@ -460,6 +515,8 @@ public class CustomerManagementApp {
             JOptionPane.showMessageDialog(null, allShipmentsContent.toString());
         }
     }
+
+
 
     public void showDeliveryRoute() {
         JFrame frame = new JFrame("Teslimat Rotası - Şehirler Ağaç Yapısı");
@@ -533,39 +590,6 @@ public class CustomerManagementApp {
         });
     }
 
-
-
-    // Teslim edilmiş kargoları ID'ye göre binary search ile bulma
-    private void searchDeliveredShipments() {
-        // Tüm teslim edilmiş kargoları bir listeye ekle
-        List<Shipment> deliveredShipments = new ArrayList<>();
-        for (Customer customer : customers) {
-            for (Shipment shipment : customer.getShipmentHistory()) {
-                if ("Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus())) {
-                    deliveredShipments.add(shipment);
-                }
-            }
-        }
-        // ID'ye göre sıralama
-        deliveredShipments.sort(Comparator.comparingInt(Shipment::getShipmentID));
-
-        // Kullanıcıdan arama yapmak için ID al
-        String input = JOptionPane.showInputDialog("Aramak istediğiniz kargo ID'sini girin:");
-        try {
-            int searchID = Integer.parseInt(input);
-
-            // Binary search
-            int index = binarySearch(deliveredShipments, searchID);
-            if (index != -1) {
-                Shipment shipment = deliveredShipments.get(index);
-                JOptionPane.showMessageDialog(null, "Kargo Bulundu:\n" + shipment);
-            } else {
-                JOptionPane.showMessageDialog(null, "Kargo bulunamadı.");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Geçerli bir ID giriniz.");
-        }
-    }
 
 
     // Binary search algoritması
