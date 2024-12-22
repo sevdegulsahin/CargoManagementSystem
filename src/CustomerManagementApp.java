@@ -419,7 +419,7 @@ public class CustomerManagementApp {
         DefaultComboBoxModel<String> shipmentComboBoxModel = new DefaultComboBoxModel<>();
         for (Customer customer : customers) {
             for (Shipment shipment : customer.getShipmentHistory()) {
-                // Gönderi bilgilerini ComboBox'a ekleyin (ID göstermeden)
+                // Gönderi bilgilerini ComboBox'a ekleyin
                 shipmentComboBoxModel.addElement("Müşteri: " + customer.getName() + " - Şehir: " + shipment.getCity() + " - Durum: " + shipment.deliveryStatus);
             }
         }
@@ -428,21 +428,29 @@ public class CustomerManagementApp {
 
         // ComboBox'u ekleyeceğimiz bir JPanel oluşturuyoruz
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));  // Dikey yerleşim
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // Dikey yerleşim
         panel.add(new JLabel("Gönderiyi Seçin:"));
         panel.add(shipmentComboBox);
+
+        // Durum değiştirme seçenekleri için bir JComboBox
+        JComboBox<String> statusComboBox = new JComboBox<>(new String[]{
+                "İşleme Alındı", "Teslimatta", "Teslim Edildi"
+        });
+        panel.add(Box.createVerticalStrut(10)); // Biraz boşluk ekler
+        panel.add(new JLabel("Yeni Durumu Seçin:"));
+        panel.add(statusComboBox);
 
         // JDialog oluşturuluyor ve ayarlanıyor
         JDialog dialog = new JDialog();
         dialog.setTitle("Durumunu Güncelle");
-        dialog.setSize(400, 150);  // Pencere boyutunu ayarlıyoruz
-        dialog.setLocationRelativeTo(null);  // Pencereyi ekranın ortasında açar
-        dialog.setModal(true);  // Dialog modal hale geliyor, yani başka bir pencereye geçilemiyor
+        dialog.setSize(400, 200); // Pencere boyutunu ayarlıyoruz
+        dialog.setLocationRelativeTo(null); // Pencereyi ekranın ortasında açar
+        dialog.setModal(true); // Dialog modal hale geliyor, yani başka bir pencereye geçilemiyor
 
         // JPanel'i JDialog'e ekliyoruz
         dialog.add(panel);
 
-        // Butonlar ekliyoruz
+        // Butonlar ekleniyor
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton("Tamam");
         JButton cancelButton = new JButton("İptal");
@@ -450,11 +458,11 @@ public class CustomerManagementApp {
         buttonPanel.add(cancelButton);
 
         // Butonları panel'e ekliyoruz
+        panel.add(Box.createVerticalStrut(10)); // Biraz daha boşluk
         panel.add(buttonPanel);
 
-        // Ok butonuna tıklanınca işlem yapılır
+        // Tamam butonuna tıklanınca işlem yapılır
         okButton.addActionListener(e -> {
-            // Seçilen gönderiyi bulma
             String selectedShipmentText = (String) shipmentComboBox.getSelectedItem();
             if (selectedShipmentText != null) {
                 String[] shipmentDetails = selectedShipmentText.split(" - ");
@@ -477,22 +485,33 @@ public class CustomerManagementApp {
 
                 // Durum güncelleme işlemi
                 if (selectedShipment != null) {
-                    String newStatus = JOptionPane.showInputDialog(dialog, "Yeni durum:");
-                    if (newStatus != null && !newStatus.trim().isEmpty()) {
-                        selectedShipment.deliveryStatus = newStatus;
-                        JOptionPane.showMessageDialog(dialog, "Durum başarıyla güncellendi.");
+                    String newStatus = (String) statusComboBox.getSelectedItem();
+                    selectedShipment.deliveryStatus = newStatus;
+
+                    // Gönderiler ComboBox'unu güncelle
+                    shipmentComboBoxModel.removeAllElements();
+                    for (Customer customer : customers) {
+                        for (Shipment shipment : customer.getShipmentHistory()) {
+                            shipmentComboBoxModel.addElement("Müşteri: " + customer.getName() + " - Şehir: " + shipment.getCity() + " - Durum: " + shipment.deliveryStatus);
+                        }
                     }
+
+                    JOptionPane.showMessageDialog(dialog, "Durum başarıyla güncellendi.\nYeni Durum: " + newStatus);
+
+                    // Dialog'u kapat
+                    dialog.dispose();
                 } else {
                     JOptionPane.showMessageDialog(dialog, "Seçilen gönderi bulunamadı.");
                 }
             }
         });
 
-        // Cancel butonuna tıklanınca dialog kapanır
+        // İptal butonuna tıklanınca dialog kapanır
         cancelButton.addActionListener(e -> dialog.dispose());
 
-        dialog.setVisible(true);  // Dialog'u görünür yapıyoruz
+        dialog.setVisible(true); // Dialog'u görünür yapıyoruz
     }
+
 
 
 
@@ -575,65 +594,124 @@ public class CustomerManagementApp {
         frame.setVisible(true);
     }
 
-
     public void checkShipmentStatus() {
         // Kullanıcının oluşturduğu gönderilerden seçim yapabileceği bir pencere
         JFrame dialog = new JFrame("Kargo Durumu Sorgula");
-        dialog.setSize(500, 300);
+        dialog.setSize(600, 400);
+
+        // Pencereyi ekranın ortasına yerleştirin
+        dialog.setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        // Kullanıcının tüm kargolarını listelemek için bir JComboBox
+        JLabel titleLabel = new JLabel("Kargonuzu Seçin");
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+
         JComboBox<String> shipmentSelector = new JComboBox<>();
         Map<String, Shipment> shipmentMap = new HashMap<>();
 
         // Kullanıcıya ait tüm kargoları ekle
         for (Customer customer : customers) {
             for (Shipment shipment : customer.getShipmentHistory()) {
-                String display = "ID: " + shipment.getShipmentID() + ", Şehir: " + shipment.getCity();
+                String display = "Müşteri: " + customer.getName() + ", ID: " + shipment.getShipmentID() + ", Şehir: " + shipment.getCity();
                 shipmentSelector.addItem(display);
                 shipmentMap.put(display, shipment);
             }
         }
 
         JButton checkButton = new JButton("Durumu Kontrol Et");
+        JButton showDeliveredButton = new JButton("Teslim Edilmiş Kargoları Göster");
+        JButton showUndeliveredButton = new JButton("Teslim Edilmemiş Kargoları Göster");
 
-        panel.add(new JLabel("Kargonuzu Seçin:"));
+        panel.add(titleLabel);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(shipmentSelector);
+        panel.add(Box.createVerticalStrut(10));
         panel.add(checkButton);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(showDeliveredButton);
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(showUndeliveredButton);
 
         dialog.add(panel);
         dialog.setVisible(true);
 
-        // Seçim sonrası işlem yapma
+        // Durumu kontrol et butonu
         checkButton.addActionListener(e -> {
             String selectedItem = (String) shipmentSelector.getSelectedItem();
             if (selectedItem != null) {
                 Shipment selectedShipment = shipmentMap.get(selectedItem);
-
                 if (selectedShipment != null) {
-                    // Teslim durumu kontrolü
                     String status = selectedShipment.getDeliveryStatus();
-                    if ("Teslim Edildi".equalsIgnoreCase(status)) {
-                        JOptionPane.showMessageDialog(dialog, "Seçilen kargo teslim edilmiştir.");
-                    } else {
-                        // Teslim edilmemiş kargolar için kalan gün hesaplama
-                        int remainingDays = selectedShipment.getDeliveryTime() - selectedShipment.getPassedDays();
-                        if (remainingDays > 0) {
-                            JOptionPane.showMessageDialog(dialog,
-                                    "Seçilen kargo henüz teslim edilmedi.\nTeslim edilmesine kalan gün sayısı: " + remainingDays);
-                        } else {
-                            JOptionPane.showMessageDialog(dialog,
-                                    "Seçilen kargo teslim edilmesi gereken süreyi aşmıştır!");
-                        }
+                    switch (status.toLowerCase()) {
+                        case "teslim edildi":
+                            JOptionPane.showMessageDialog(dialog, "Seçilen kargo teslim edilmiştir.");
+                            break;
+                        case "işleme alındı":
+                            JOptionPane.showMessageDialog(dialog, "Seçilen kargo işleme alınmıştır. Teslimat bekleniyor.");
+                            break;
+                        case "teslimatta":
+                            JOptionPane.showMessageDialog(dialog, "Seçilen kargo teslimatta. Yakında ulaşacaktır.");
+                            break;
+                        default:
+                            int remainingDays = selectedShipment.getDeliveryTime() - selectedShipment.getPassedDays();
+                            if (remainingDays > 0) {
+                                JOptionPane.showMessageDialog(dialog, "Seçilen kargo henüz teslim edilmedi.\nTeslim edilmesine kalan gün sayısı: " + remainingDays);
+                            } else {
+                                JOptionPane.showMessageDialog(dialog, "Seçilen kargo teslim edilmesi gereken süreyi aşmıştır!");
+                            }
+                            break;
                     }
                 } else {
                     JOptionPane.showMessageDialog(dialog, "Kargo bulunamadı!");
                 }
             }
         });
+
+        // Teslim edilmiş kargoları göster butonu
+        showDeliveredButton.addActionListener(e -> {
+            List<Shipment> deliveredShipments = customers.stream()
+                    .flatMap(customer -> customer.getShipmentHistory().stream())
+                    .filter(shipment -> "Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus()))
+                    .toList();
+
+            displayShipments("Teslim Edilmiş Kargolar", deliveredShipments);
+        });
+
+        // Teslim edilmemiş kargoları göster butonu
+        showUndeliveredButton.addActionListener(e -> {
+            List<Shipment> undeliveredShipments = customers.stream()
+                    .flatMap(customer -> customer.getShipmentHistory().stream())
+                    .filter(shipment -> !"Teslim Edildi".equalsIgnoreCase(shipment.getDeliveryStatus()))
+                    .toList();
+
+            displayShipments("Teslim Edilmemiş Kargolar", undeliveredShipments);
+        });
     }
+
+    // Kargo listesini göstermek için yardımcı metot
+    private void displayShipments(String title, List<Shipment> shipments) {
+        String[] columnNames = {"Müşteri", "Kargo ID", "Şehir"};
+        Object[][] data = new Object[shipments.size()][3];
+
+        for (int i = 0; i < shipments.size(); i++) {
+            Shipment shipment = shipments.get(i);
+            data[i][0] = shipment.getCustomer().getName();
+            data[i][1] = shipment.getShipmentID();
+            data[i][2] = shipment.getCity();
+        }
+
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        JFrame tableFrame = new JFrame(title);
+        tableFrame.setSize(600, 300);
+        tableFrame.setLocationRelativeTo(null);
+        tableFrame.add(scrollPane);
+        tableFrame.setVisible(true);
+    }
+
 
 
 
