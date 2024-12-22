@@ -12,21 +12,23 @@ class CityTreeVisualizationPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // Arka plan rengini lacivert yapıyoruz
+        setBackground(Color.decode("#012a4a")); // Arka plan rengi lacivert
+
         if (root != null) {
             // Çizim fonksiyonunu çağır
             drawTree(g, root, getWidth() / 2, 50, getWidth() / 4, 80);  // yOffset 80 ile her seviyede aşağıya doğru mesafe artırıyoruz
         }
     }
 
-
-
     private void drawTree(Graphics g, TreeNode node, int x, int y, int xOffset, int yOffset) {
         // Düğümü çiz (Pembe)
-        g.setColor(Color.BLACK);
+        g.setColor(Color.PINK);  // Noktaları pembe yapıyoruz
         g.fillOval(x - 5, y - 5, 10, 10);  // Şehir noktası
 
-        // Şehir adını ve kargo sayısını yazdır (Siyah)
-        g.setColor(Color.BLACK);  // Yazı rengi siyah
+        // Şehir adını ve kargo sayısını yazdır (Beyaz)
+        g.setColor(Color.WHITE);  // Yazı rengi beyaz
         String cityLabel = node.city + " (Kargo: " + node.cargoCount + ")";
         g.drawString(cityLabel, x - cityLabel.length() * 3, y + 20); // Şehir ve kargo sayısını yazdır
 
@@ -42,15 +44,12 @@ class CityTreeVisualizationPanel extends JPanel {
             TreeNode child = node.children.get(i);
             int childX = childXBase + i * xOffset;
 
-            // Çizgiyi mavi renkte çiz
-            g.setColor(Color.BLACK);  // Çizgi rengi mavi
+            // Çizgiyi beyaz renkte çiziyoruz
+            g.setColor(Color.WHITE);  // Çizgi rengi beyaz
             g.drawLine(x, y, childX, childY);  // Çizgi
 
             // Çocuğu çizmek için recursive çağrı
             drawTree(g, child, childX, childY, xOffset / 2, yOffset + 70);  // Her seviyede daha sıkışık yerleşim
         }
     }
-
-
-
 }

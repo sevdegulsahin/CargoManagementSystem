@@ -122,10 +122,19 @@ public class CustomerManagementApp {
             return -1; // Şehir bulunamadıysa -1 döndür
         }
     }
+
+
     public void printRoutesFromShipments() {
         // Müşteri listesi kontrolü
         if (customers.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Hiç müşteri kaydı yok!");
+            // UIManager renk ayarları
+            UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+            UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+            UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+            UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+            UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
+            JOptionPane.showMessageDialog(null, "Hiç müşteri kaydı yok!", "Hata", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -154,7 +163,7 @@ public class CustomerManagementApp {
             if (selectedCustomer != null) {
                 // Gönderi listesi kontrolü
                 if (selectedCustomer.getShipmentHistory().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Seçilen müşterinin gönderisi yok!");
+                    JOptionPane.showMessageDialog(null, "Seçilen müşterinin gönderisi yok!", "Hata", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -179,11 +188,23 @@ public class CustomerManagementApp {
                         routeMessage.append(city).append("\n");
                     }
 
-                    JOptionPane.showMessageDialog(null, routeMessage.toString());
+                    // UIManager renk ayarları
+                    UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+                    UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+                    UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+                    UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+                    UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
+                    JOptionPane.showMessageDialog(null, routeMessage.toString(), "Teslimat Rotası", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
     }
+
+
+
+
+
     public void sortShipmentsByDeliveryTime() {
         // PriorityQueue, teslim süresine göre sıralamak için kullanılır.
         PriorityQueue<Shipment> shipmentQueue = new PriorityQueue<>(Comparator.comparingInt(Shipment::getDeliveryTime));
@@ -198,8 +219,17 @@ public class CustomerManagementApp {
         while (!shipmentQueue.isEmpty()) {
             sortedShipments.append(shipmentQueue.poll()).append("\n");
         }
-        JOptionPane.showMessageDialog(null, sortedShipments.toString());
+
+        // UIManager renk ayarları
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+        UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
+        JOptionPane.showMessageDialog(null, sortedShipments.toString(), "Sıralı Gönderiler", JOptionPane.INFORMATION_MESSAGE);
     }
+
 
 
     public void addCustomerDialog() {
@@ -207,9 +237,21 @@ public class CustomerManagementApp {
         dialog.setSize(300, 200);
 
         JLabel nameLabel = new JLabel("Adı-Soyadı:");
+        nameLabel.setForeground(Color.decode("#FFFFFF")); // Yazı rengini beyaz yapar (hex kodu: #FFFFFF)
         JTextField nameField = new JTextField();
         JButton addButton = new JButton("Ekle");
+
+        // Butonun arka plan ve yazı rengini ayarlıyoruz
+        addButton.setBackground(Color.decode("#ffe5ec")); // Arka plan pembe
+        addButton.setForeground(Color.decode("#012a4a")); // lacivert
+
+
         JPanel panel = new JPanel(new GridLayout(2, 2));
+
+        // Panelin arka plan rengini ayarlıyoruz
+        panel.setBackground(Color.decode("#012a4a")); // lacivert
+
+
         panel.add(nameLabel);
         panel.add(nameField);
         panel.add(new JLabel()); // Boş alan
@@ -238,6 +280,15 @@ public class CustomerManagementApp {
                 Customer newCustomer = new Customer(id, name);
                 customers.add(newCustomer);
 
+                // UIManager ile JOptionPane'in arka plan ve yazı rengini ayarlıyoruz
+                UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+                UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+                UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+
+                // Butonların arka plan ve yazı rengini ayarlama
+                UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (yeşil)
+                UIManager.put("Button.foreground", Color.decode("#012a4a"));              // Buton yazı rengi (beyaz)
+
                 JOptionPane.showMessageDialog(dialog, "Müşteri başarıyla eklendi.\nMüşteri ID: " + id);
                 dialog.dispose();
             } catch (Exception ex) {
@@ -249,43 +300,63 @@ public class CustomerManagementApp {
     }
 
 
+
     public void addShipmentDialog() {
 
         JFrame dialog = new JFrame("Gönderi Ekle");
         dialog.setSize(400, 300);
 
+        // Etiketlerin yazı rengini beyaz yapıyoruz
         JLabel customerLabel = new JLabel("Müşteri Seç:");
+        customerLabel.setForeground(Color.decode("#FFFFFF")); // Beyaz yazı rengi
 
+        // Müşteri ComboBox
         DefaultComboBoxModel<String> customerComboBoxModel = new DefaultComboBoxModel<>();
         for (Customer customer : customers) {
             customerComboBoxModel.addElement("ID: " + customer.getCustomerID() + " - " + customer.getName());
         }
-
         JComboBox<String> customerComboBox = new JComboBox<>(customerComboBoxModel);
 
+        // Şehir etiketinin yazı rengini beyaz yapıyoruz
         JLabel cityLabel = new JLabel("Teslimat Şehri:");
+        cityLabel.setForeground(Color.decode("#FFFFFF")); // Beyaz yazı rengi
 
-        // Şehirleri almak için helper fonksiyonu çağır
+        // Şehirler için ComboBox
         java.util.List<String> cityNames = getAllCityNames(cityTreeRoot);
         JComboBox<String> cityComboBox = new JComboBox<>(cityNames.toArray(new String[0]));
 
+        // Ekle butonunun arka plan rengini pembe, yazı rengini lacivert yapıyoruz
         JButton addButton = new JButton("Ekle");
+        addButton.setBackground(Color.decode("#ffe5ec")); // Pembe arka plan
+        addButton.setForeground(Color.decode("#012a4a")); // Lacivert yazı rengi
 
-        JScrollPane scrollPane = new JScrollPane(cityComboBox);
-
+        // Panelin arka plan rengini lacivert yapıyoruz
         JPanel panel = new JPanel(new GridLayout(3, 2));
+        panel.setBackground(Color.decode("#012a4a")); // Lacivert arka plan
+
+        // Komboları ve butonu panele ekliyoruz
         panel.add(customerLabel);
         panel.add(customerComboBox);
         panel.add(cityLabel);
-        panel.add(scrollPane);
-        panel.add(new JLabel());
+        panel.add(new JScrollPane(cityComboBox)); // Scrollpane ile şehir ComboBox'ı
+        panel.add(new JLabel()); // Boş alan
         panel.add(addButton);
 
         dialog.add(panel);
 
-        // Pencerenin ekranın ortasında açılması için
+        // Pencerenin ortada açılması
         dialog.setLocationRelativeTo(null);
 
+        // UIManager ile JOptionPane arka planı ve yazı rengini ayarlıyoruz
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+
+        // Butonların arka plan ve yazı rengini ayarlıyoruz
+        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+        UIManager.put("Button.foreground", Color.decode("#012a4a"));   // Buton yazı rengi (lacivert)
+
+        // Ekle butonuna tıklama işlemi
         addButton.addActionListener(e -> {
             try {
                 // Seçilen müşteri bilgilerini al
@@ -302,31 +373,30 @@ public class CustomerManagementApp {
                 // Seçilen şehir bilgilerini al
                 String city = (String) cityComboBox.getSelectedItem();
 
-                // Teslimat süresi için getDeliveryTimeForCity fonksiyonunu çağır
+                // Teslimat süresi için fonksiyonu çağırıyoruz
                 int deliveryTime = getDeliveryTimeForCity(city);
 
                 if (deliveryTime != -1) {  // Eğer şehir geçerli ise
                     TreeNode cityNode = findCityNode(city, cityTreeRoot);
                     if (cityNode != null) {
-                        // Şehirdeki kargo sayısını artır
+                        // Şehirdeki kargo sayısını artırıyoruz
                         cityNode.cargoCount++;
 
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         String currentDate = sdf.format(new Date());
-                        // Gönderi oluştur ve müşteri geçmişine ekle
+                        // Gönderi oluşturuyoruz ve müşteri geçmişine ekliyoruz
                         Shipment shipment = new Shipment(shipmentIDCounter++, currentDate, "Beklemede", deliveryTime, city, selectedCustomer);
                         selectedCustomer.addShipment(shipment, this);
 
+                        // Başarı mesajını gösteriyoruz
                         JOptionPane.showMessageDialog(dialog, "Gönderi başarıyla eklendi.\nTeslimat Süresi: " + shipment.getDeliveryTime() + " gün.\nGönderi ID: " + shipment.getShipmentID());
                         dialog.dispose();
                     } else {
-
                         JOptionPane.showMessageDialog(dialog, "Geçersiz şehir adı.");
                     }
                 } else {
                     JOptionPane.showMessageDialog(dialog, "Geçersiz şehir adı.");
-                } dialog.dispose();
-
+                }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(dialog, "Gönderi eklerken hata oluştu.");
             }
@@ -334,6 +404,7 @@ public class CustomerManagementApp {
 
         dialog.setVisible(true);
     }
+
 
     // CityTree'deki tüm şehirleri alacak fonksiyon
     private java.util.List<String> getAllCityNames(TreeNode node) {
@@ -353,50 +424,20 @@ public class CustomerManagementApp {
         for (Customer customer : customers) {
             customersList.append("ID: ").append(customer.getCustomerID()).append(", Ad: ").append(customer.getName()).append("\n");
         }
+
+        // JOptionPane arka plan ve yazı rengini ayarlıyoruz
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+
+        // Mesaj kutusunu gösteriyoruz
         JOptionPane.showMessageDialog(null, customersList.toString());
     }
 
-    public void viewCustomerHistory() {
-        // Müşterilerin adlarını ComboBox'ta göstermek için model oluşturuluyor
-        DefaultComboBoxModel<String> customerComboBoxModel = new DefaultComboBoxModel<>();
-        for (Customer customer : customers) {
-            customerComboBoxModel.addElement(customer.getName());
-        }
 
-        // JComboBox oluşturuluyor
-        JComboBox<String> customerComboBox = new JComboBox<>(customerComboBoxModel);
-        int option = JOptionPane.showConfirmDialog(null, customerComboBox, "Geçmişi görmek istediğiniz müşteriyi seçin:", JOptionPane.OK_CANCEL_OPTION);
 
-        if (option == JOptionPane.OK_OPTION) {
-            String selectedCustomerName = (String) customerComboBox.getSelectedItem();
-            if (selectedCustomerName != null) {
-                // Seçilen müşteri bulunuyor
-                for (Customer customer : customers) {
-                    if (customer.getName().equalsIgnoreCase(selectedCustomerName)) {
-                        StringBuilder history = new StringBuilder("Müşteri Geçmişi:\n");
 
-                        // Müşterinin gönderi geçmişi LinkedList olarak alınıyor
-                        LinkedList<Shipment> shipments = customer.getShipmentStack(); // ShipmentStack alıyoruz
 
-                        // ListIterator ile listenin sonuna gidiyoruz
-                        ListIterator<Shipment> iterator = shipments.listIterator(shipments.size());  // Son elemana başlatıyoruz
-                        int count = 0;
-
-                        // Son 5 gönderiyi alıyoruz
-                        while (iterator.hasPrevious() && count < 5) {
-                            Shipment shipment = iterator.previous();  // Ters yönde ilerliyoruz
-                            history.append(shipment).append("\n");
-                            count++;
-                        }
-
-                        JOptionPane.showMessageDialog(null, history.toString());
-                        return;
-                    }
-                }
-            }
-        }
-        JOptionPane.showMessageDialog(null, "Müşteri bulunamadı.");
-    }
     public void updateShipmentStatus() {
         // Gönderi seçim ekranı
         DefaultComboBoxModel<String> shipmentComboBoxModel = new DefaultComboBoxModel<>();
@@ -408,25 +449,36 @@ public class CustomerManagementApp {
         }
 
         JComboBox<String> shipmentComboBox = new JComboBox<>(shipmentComboBoxModel);
-
-        // ComboBox'u ekleyeceğimiz bir JPanel oluşturuyoruz
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // Dikey yerleşim
-        panel.add(new JLabel("Gönderiyi Seçin:"));
-        panel.add(shipmentComboBox);
+        shipmentComboBox.setBackground(Color.decode("#ffe5ec")); // ComboBox arka plan rengi pembe
+        shipmentComboBox.setForeground(Color.decode("#012a4a")); // ComboBox yazı rengi lacivert
 
         // Durum değiştirme seçenekleri için bir JComboBox
         JComboBox<String> statusComboBox = new JComboBox<>(new String[]{
                 "İşleme Alındı", "Teslimatta", "Teslim Edildi"
         });
+        statusComboBox.setBackground(Color.decode("#ffe5ec")); // ComboBox arka plan rengi pembe
+        statusComboBox.setForeground(Color.decode("#012a4a")); // ComboBox yazı rengi lacivert
+
+        // ComboBox'u ekleyeceğimiz bir JPanel oluşturuyoruz
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // Dikey yerleşim
+        panel.setBackground(Color.decode("#012a4a")); // Panel arka plan rengi lacivert
+
+        JLabel shipmentLabel = new JLabel("Gönderiyi Seçin:");
+        shipmentLabel.setForeground(Color.WHITE); // Yazı rengi beyaz
+        panel.add(shipmentLabel);
+        panel.add(shipmentComboBox);
+
+        JLabel statusLabel = new JLabel("Yeni Durumu Seçin:");
+        statusLabel.setForeground(Color.WHITE); // Yazı rengi beyaz
         panel.add(Box.createVerticalStrut(10)); // Biraz boşluk ekler
-        panel.add(new JLabel("Yeni Durumu Seçin:"));
+        panel.add(statusLabel);
         panel.add(statusComboBox);
 
         // JDialog oluşturuluyor ve ayarlanıyor
         JDialog dialog = new JDialog();
         dialog.setTitle("Durumunu Güncelle");
-        dialog.setSize(400, 200); // Pencere boyutunu ayarlıyoruz
+        dialog.setSize(400, 250); // Pencere boyutunu ayarlıyoruz
         dialog.setLocationRelativeTo(null); // Pencereyi ekranın ortasında açar
         dialog.setModal(true); // Dialog modal hale geliyor, yani başka bir pencereye geçilemiyor
 
@@ -435,14 +487,29 @@ public class CustomerManagementApp {
 
         // Butonlar ekleniyor
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.decode("#012a4a")); // Buton panelinin arka planı lacivert
         JButton okButton = new JButton("Tamam");
         JButton cancelButton = new JButton("İptal");
+
+        // Buton renk ayarları
+        okButton.setBackground(Color.decode("#ffe5ec"));  // OK butonunun arka plan rengi pembe
+        okButton.setForeground(Color.decode("#012a4a"));  // OK butonunun yazı rengi lacivert
+        cancelButton.setBackground(Color.decode("#ffe5ec"));  // Cancel butonunun arka planı pembe
+        cancelButton.setForeground(Color.decode("#012a4a"));  // Cancel butonunun yazı rengi lacivert
+
         buttonPanel.add(okButton);
         buttonPanel.add(cancelButton);
 
         // Butonları panel'e ekliyoruz
         panel.add(Box.createVerticalStrut(10)); // Biraz daha boşluk
         panel.add(buttonPanel);
+
+        // JOptionPane için UIManager renk ayarları
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+        UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
 
         // Tamam butonuna tıklanınca işlem yapılır
         okButton.addActionListener(e -> {
@@ -494,34 +561,156 @@ public class CustomerManagementApp {
 
         dialog.setVisible(true); // Dialog'u görünür yapıyoruz
     }
+
+
+    public void viewCustomerHistory() {
+        // Müşterilerin adlarını ComboBox'ta göstermek için model oluşturuluyor
+        DefaultComboBoxModel<String> customerComboBoxModel = new DefaultComboBoxModel<>();
+        for (Customer customer : customers) {
+            customerComboBoxModel.addElement(customer.getName());
+        }
+
+        // JComboBox oluşturuluyor
+        JComboBox<String> customerComboBox = new JComboBox<>(customerComboBoxModel);
+
+        // JOptionPane için UIManager renk ayarları
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+        UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
+        int option = JOptionPane.showConfirmDialog(null, customerComboBox, "Geçmişi görmek istediğiniz müşteriyi seçin:", JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            String selectedCustomerName = (String) customerComboBox.getSelectedItem();
+            if (selectedCustomerName != null) {
+                // Seçilen müşteri bulunuyor
+                for (Customer customer : customers) {
+                    if (customer.getName().equalsIgnoreCase(selectedCustomerName)) {
+                        StringBuilder history = new StringBuilder("Müşteri Geçmişi:\n");
+
+                        // Müşterinin gönderi geçmişi LinkedList olarak alınıyor
+                        LinkedList<Shipment> shipments = customer.getShipmentStack(); // ShipmentStack alıyoruz
+
+                        // ListIterator ile listenin sonuna gidiyoruz
+                        ListIterator<Shipment> iterator = shipments.listIterator(shipments.size());  // Son elemana başlatıyoruz
+                        int count = 0;
+
+                        // Son 5 gönderiyi alıyoruz
+                        while (iterator.hasPrevious() && count < 5) {
+                            Shipment shipment = iterator.previous();  // Ters yönde ilerliyoruz
+                            history.append(shipment).append("\n");
+                            count++;
+                        }
+
+                        // Mesaj kutusunu renkli olarak gösteriyoruz
+                        showCustomMessageDialog(history.toString(), "Müşteri Geçmişi", Color.decode("#012a4a"), Color.WHITE);
+                        return;
+                    }
+                }
+            }
+        }
+        // Müşteri bulunamadığında gösterilecek hata mesajı
+        showCustomMessageDialog("Müşteri bulunamadı.", "Hata", Color.RED, Color.WHITE);
+    }
+
+    // Özelleştirilmiş renkli mesaj kutusu metodu
+    private void showCustomMessageDialog(String message, String title, Color bgColor, Color textColor) {
+        JPanel panel = new JPanel();
+        panel.setBackground(bgColor); // Arka plan rengini ayarlıyoruz
+
+        JLabel label = new JLabel(message);
+        label.setForeground(textColor); // Yazı rengini ayarlıyoruz
+        label.setFont(new Font("Arial", Font.PLAIN, 14)); // Font düzenlemesi
+        panel.add(label);
+
+        // Mesaj kutusunu göster
+        JOptionPane.showMessageDialog(null, panel, title, JOptionPane.PLAIN_MESSAGE);
+    }
+
+
+
     public void searchShipment() {
-        String shipmentID = JOptionPane.showInputDialog("Aradığınız gönderi ID'sini girin:");
+        // JOptionPane için UIManager renk ayarları
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+        UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
+        // Kullanıcıdan gönderi ID'si alınıyor
+        String shipmentID = JOptionPane.showInputDialog(null, "Aradığınız gönderi ID'sini girin:");
+
+        // Gönderi araması yapılıyor
         for (Customer customer : customers) {
             for (Shipment shipment : customer.getShipmentHistory()) {
                 if (String.valueOf(shipment.getShipmentID()).equals(shipmentID)) {
-                    JOptionPane.showMessageDialog(null, shipment);
+                    JOptionPane.showMessageDialog(null, shipment);  // Gönderiyi ekrana yazdırıyoruz
                     return;
                 }
             }
         }
+
+        // Eğer gönderi bulunamazsa
         JOptionPane.showMessageDialog(null, "Gönderi bulunamadı.");
     }
 
+
+
     public void deleteShipment() {
+        // JOptionPane için UIManager renk ayarları
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+        UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
         String shipmentID = JOptionPane.showInputDialog("Silmek istediğiniz gönderi ID'sini girin:");
+
+        // Eğer kullanıcı hiçbir şey girmediyse
+        if (shipmentID == null || shipmentID.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "Lütfen geçerli bir gönderi ID'si girin.",
+                    "Hata",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Kargo ID'sine göre gönderiyi bulup silme işlemi
+        boolean shipmentFound = false;
+
         for (Customer customer : customers) {
             Iterator<Shipment> iterator = customer.getShipmentHistory().iterator();
             while (iterator.hasNext()) {
                 Shipment shipment = iterator.next();
                 if (String.valueOf(shipment.getShipmentID()).equals(shipmentID)) {
                     iterator.remove();
-                    JOptionPane.showMessageDialog(null, "Gönderi başarıyla silindi.");
-                    return;
+                    shipmentFound = true;
+                    // Silme başarılı olduğunda bilgi mesajı
+                    JOptionPane.showMessageDialog(null,
+                            "Gönderi başarıyla silindi.",
+                            "Başarılı",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    break;
                 }
             }
+            if (shipmentFound) {
+                break; // Gönderi bulunduysa, dışarıdaki döngüyü sonlandır
+            }
         }
-        JOptionPane.showMessageDialog(null, "Gönderi bulunamadı.");
+
+        // Gönderi bulunamazsa hata mesajı
+        if (!shipmentFound) {
+            JOptionPane.showMessageDialog(null,
+                    "Gönderi bulunamadı.",
+                    "Hata",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
+
+
+
     // Global Stack tanımlaması (Bu sınıfın içinde tanımlayın, örneğin, ana yönetim sınıfınızda)
     private Stack<Shipment> allShipmentsStack = new Stack<>();
     // Gönderiyi global stack'e ekleme metodu
@@ -529,12 +718,23 @@ public class CustomerManagementApp {
         allShipmentsStack.push(shipment); // Gönderi stack'e ekleniyor
     }
 
+
     public void listAllShipments() {
         StringBuilder allShipmentsContent = new StringBuilder("Tüm Gönderiler:\n");
 
+        // JOptionPane için UIManager renk ayarları
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+        UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
         // Eğer stack boşsa, kullanıcıya bildiriyoruz
         if (allShipmentsStack.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Hiç gönderi bulunamadı.");
+            JOptionPane.showMessageDialog(null,
+                    "Hiç gönderi bulunamadı.",
+                    "Bilgi",
+                    JOptionPane.INFORMATION_MESSAGE);
         } else {
             // Geçici bir liste kullanarak stack'in içeriğini koruyoruz
             Stack<Shipment> tempStack = new Stack<>();
@@ -551,20 +751,66 @@ public class CustomerManagementApp {
             }
 
             // Gönderileri ekrana yazdırıyoruz
-            JOptionPane.showMessageDialog(null, allShipmentsContent.toString());
+            JTextArea textArea = new JTextArea(allShipmentsContent.toString());
+            textArea.setEditable(false); // Metni düzenlenemez yapıyoruz
+            textArea.setFont(new Font("Arial", Font.PLAIN, 14));
+            textArea.setForeground(Color.decode("#FFFFFF")); // Yazı rengi beyaz
+            textArea.setBackground(Color.decode("#012a4a")); // Arka plan rengi lacivert
+            textArea.setBorder(BorderFactory.createLineBorder(Color.decode("#ffe5ec"), 1)); // Kenarlık rengi pembe
+
+            // ScrollPane ile metin alanını kaydırılabilir yapıyoruz
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(600, 400)); // Boyutunu ayarlıyoruz
+
+            JOptionPane.showMessageDialog(null, scrollPane, "Tüm Gönderiler", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+
+
     public void showDeliveryRoute() {
         JFrame frame = new JFrame("Teslimat Rotası - Şehirler Ağaç Yapısı");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        // Ana çerçeve arka plan rengi lacivert
+        frame.getContentPane().setBackground(Color.decode("#012a4a")); // Arka planı lacivert yapıyoruz
+
         CityTreeVisualizationPanel treePanel = new CityTreeVisualizationPanel(cityTreeRoot);
-        frame.add(new JScrollPane(treePanel));
+
+        // ScrollPane'in arka plan rengini beyaz yapalım
+        JScrollPane scrollPane = new JScrollPane(treePanel);
+        scrollPane.getViewport().setBackground(Color.white); // ScrollPane'in arka planı beyaz
+
+        // Çerçeve ve panelin boyutlandırma
+        frame.add(scrollPane);
 
         frame.pack();
-        frame.setSize(800, 600);
+        frame.setSize(1800, 800);
+
+        // Ekranın ortasında açılması için:
+        frame.setLocationRelativeTo(null);
+
+        // UIManager renk ayarları
+        UIManager.put("OptionPane.background", Color.decode("#012a4a")); // Arka plan rengi lacivert
+        UIManager.put("Panel.background", Color.decode("#012a4a")); // Panel arka planı lacivert
+        UIManager.put("OptionPane.messageForeground", Color.decode("#FFFFFF")); // Yazı rengi beyaz
+        UIManager.put("Button.background", Color.decode("#ffe5ec"));  // OK ve Cancel butonlarının arka plan rengi (pembe)
+        UIManager.put("Button.foreground", Color.decode("#012a4a"));  // Buton yazı rengi (lacivert)
+
+        // Çerçevenin görsel stilini iyileştirelim
+        frame.getRootPane().setBorder(BorderFactory.createLineBorder(Color.decode("#012a4a"), 3)); // Çerçeve etrafına lacivert kenarlık ekleyelim
+
+        // İçerik panelinin yazı rengini beyaz yapalım
+        JLabel label = new JLabel("Teslimat Rotası - Şehirler Ağaç Yapısı");
+        label.setForeground(Color.WHITE); // Yazı rengini beyaz yapalım
+        frame.add(label, BorderLayout.NORTH);
+
+        // Pencereyi görünür kıl
         frame.setVisible(true);
     }
+
+
+
 
     public void checkShipmentStatus() {
         // Kullanıcının oluşturduğu gönderilerden seçim yapabileceği bir pencere
@@ -576,11 +822,13 @@ public class CustomerManagementApp {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(Color.decode("#012a4a")); // Panel arka plan rengi lacivert
 
         // Ortalanmış bir JLabel oluşturun
         JLabel titleLabel = new JLabel("Kargonuzu Seçin");
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Yazıyı yatayda ortalar
         titleLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT); // BoxLayout için ortalar
+        titleLabel.setForeground(Color.WHITE); // Başlık rengi beyaz
 
         // Kullanıcının tüm kargolarını listelemek için bir JComboBox
         JComboBox<String> shipmentSelector = new JComboBox<>();
@@ -596,9 +844,21 @@ public class CustomerManagementApp {
             }
         }
 
+        // Butonlar
         JButton checkButton = new JButton("Durumu Kontrol Et");
         JButton sortUndeliveredButton = new JButton("Teslim Edilmemiş Kargoları Sırala");
         JButton searchDeliveredButton = new JButton("Teslim Edilmiş Kargoları Ara");
+
+        // ComboBox ve Buton renkleri
+        shipmentSelector.setBackground(Color.decode("#ffe5ec")); // ComboBox arka planı pembe
+        shipmentSelector.setForeground(Color.decode("#012a4a")); // ComboBox yazı rengi lacivert
+
+        checkButton.setBackground(Color.decode("#ffe5ec")); // Buton arka planı pembe
+        checkButton.setForeground(Color.decode("#012a4a")); // Buton yazı rengi lacivert
+        sortUndeliveredButton.setBackground(Color.decode("#ffe5ec"));
+        sortUndeliveredButton.setForeground(Color.decode("#012a4a"));
+        searchDeliveredButton.setBackground(Color.decode("#ffe5ec"));
+        searchDeliveredButton.setForeground(Color.decode("#012a4a"));
 
         // Panel'e bileşenleri ekle
         panel.add(titleLabel);
@@ -687,6 +947,10 @@ public class CustomerManagementApp {
             }
         });
     }
+
+
+
+
     // Binary search algoritması
     private int binarySearch(List<Shipment> list, int searchID) {
         int left = 0, right = list.size() - 1;

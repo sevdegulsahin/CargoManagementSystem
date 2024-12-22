@@ -8,7 +8,7 @@ public class GUI {
 
     public void showGUI() {
         JFrame frame = new JFrame("Müşteri Yönetimi");
-        frame.setSize(800, 700); // Çerçeve boyutu
+        frame.setSize(1200, 1000); // Çerçeve boyutu
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Ekranın ortasında açılması
@@ -92,7 +92,7 @@ public class GUI {
         addShipmentButton.setText("Gönderi Ekle");
         addShipmentButton.setHorizontalTextPosition(SwingConstants.CENTER);
         addShipmentButton.setVerticalTextPosition(SwingConstants.BOTTOM);
-        addShipmentButton.setBackground(Color.decode("#ffe5ec"));
+        addShipmentButton.setBackground(Color.decode("#ffe5ec")); //pembe
         addShipmentButton.setForeground(Color.decode("#043565"));
         addShipmentButton.setPreferredSize(buttonSize);
 
