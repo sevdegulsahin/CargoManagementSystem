@@ -12,12 +12,10 @@ public class TreeNode {
         this.city = city;
         this.children = new ArrayList<>();
         this.depth = depth;
-        this.deliveryTime = depth; // Derinlik ile teslimat süresini ilişkilendiriyoruz
+        this.deliveryTime = depth;
         this.cargoCount = 0;
     }
-
-
-    // Derinlik hesaplamak için recursive fonksiyon
+    //derinilik hesaplıyoruz
     public int calculateDepth(TreeNode node, int currentDepth) {
         int maxDepth = currentDepth;
         for (TreeNode child : node.children) {

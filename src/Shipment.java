@@ -3,14 +3,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 class Shipment implements Comparable<Shipment> {
-    private int shipmentID; // Kargo ID'si
-    private String date; // Gönderim tarihi, "yıl-ay-gün" formatında
-    String deliveryStatus; // Teslimat durumu (örneğin: "Teslim Edildi" veya "Teslim Edilmedi")
-    private int deliveryTime; // Teslimat süresi (gün olarak tahmin edilen süre)
-    private String city; // Gönderim şehri
-    private Customer customer; // Kargonun sahibi olan müşteri
+    private int shipmentID;
+    private String date;
+    String deliveryStatus;
+    private int deliveryTime;
+    private String city;
+    private Customer customer;
 
-    // Constructor
     public Shipment(int shipmentID, String date, String deliveryStatus, int deliveryTime, String city, Customer customer) {
         this.shipmentID = shipmentID;
         this.date = date;
@@ -28,8 +27,6 @@ class Shipment implements Comparable<Shipment> {
         return (int) ChronoUnit.DAYS.between(shipmentDate, currentDate); // Geçen günleri hesaplar
     }
 
-
-    // Getter ve Setter'lar
     public int getShipmentID() {
         return shipmentID;
     }
@@ -58,7 +55,6 @@ class Shipment implements Comparable<Shipment> {
         this.deliveryStatus = deliveryStatus;
     }
 
-    // toString metodu, kargonun bilgilerini okunabilir formatta döner
     @Override
     public String toString() {
         return "Kargo ID: " + shipmentID + ", Tarih: " + date + ", Durum: " + deliveryStatus

@@ -19,25 +19,25 @@ public class GUI {
 
         // Üst görsel
         ImageIcon headerIcon = new ImageIcon(Icons.class.getResource("/Resources/skydoves_logo.jpg"));
-        int headerWidth = 500; // Daha büyük genişlik
-        int headerHeight = 200; // Daha büyük yükseklik
+        int headerWidth = 500;
+        int headerHeight = 200;
         Image scaledHeaderImage = headerIcon.getImage().getScaledInstance(headerWidth, headerHeight, Image.SCALE_SMOOTH);
         headerIcon = new ImageIcon(scaledHeaderImage);
 
         JLabel headerLabel = new JLabel(headerIcon);
-        headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Ortalanmış görsel
+        headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Panel ayarları
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Panelin arka plan rengini ayarla
-        panel.setBackground(Color.decode("#012a4a")); // lacivert
+        panel.setBackground(Color.decode("#012a4a"));
 
         // Görsel ekleme
-        panel.add(Box.createVerticalStrut(20)); // Üst boşluk
+        panel.add(Box.createVerticalStrut(20));
         panel.add(headerLabel);
-        panel.add(Box.createVerticalStrut(30)); // Görsel alt boşluk
+        panel.add(Box.createVerticalStrut(30));
 
         // Küçük ikon boyutları
         int buttonIconSize = 50;
@@ -71,13 +71,13 @@ public class GUI {
         printRoutesFromShipmentsIcon = new ImageIcon(printRoutesFromShipmentsIcon.getImage().getScaledInstance(buttonIconSize, buttonIconSize, Image.SCALE_SMOOTH));
 
         // Butonlar için boyutlar
-        int buttonWidth = buttonIconSize; // Buton genişliği
-        int buttonHeight = buttonIconSize + 20; // Buton yüksekliği (ikon + yazı)
+        int buttonWidth = buttonIconSize;
+        int buttonHeight = buttonIconSize + 20;
 
         // Butonlar için ortak boyut ayarı
         Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
 
-        // Butonları oluşturma ve düzenleme
+
         JButton addCustomerButton = new JButton(addCustomerIcon);
         addCustomerButton.setText("Müşteri Ekle");
         addCustomerButton.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -178,36 +178,34 @@ public class GUI {
 
         // Butonlar için paneller oluşturma
         JPanel row1 = new JPanel();
-        row1.setLayout(new GridLayout(1, 3, 0, 30)); // 3 sütun, 10px aralık
+        row1.setLayout(new GridLayout(1, 3, 0, 30));
         row1.add(addCustomerButton);
         row1.add(addShipmentButton);
         row1.add(viewAllCustomersButton);
 
         JPanel row2 = new JPanel();
-        row2.setLayout(new GridLayout(1, 3, 0, 30)); // 3 sütun, 10px aralık
+        row2.setLayout(new GridLayout(1, 3, 0, 30));
         row2.add(viewCustomerHistoryButton);
         row2.add(updateShipmentStatusButton);
         row2.add(checkShipmentStatusButton);
 
         JPanel row3 = new JPanel();
-        row3.setLayout(new GridLayout(1, 3, 0, 30)); // 3 sütun, 10px aralık
+        row3.setLayout(new GridLayout(1, 3, 0, 30));
         row3.add(searchShipmentButton);
         row3.add(deleteShipmentButton);
         row3.add(viewShipmentStackButton);
 
         JPanel row4 = new JPanel();
-        row4.setLayout(new GridLayout(1, 3, 0, 30)); // 3 sütun, 10px aralık
+        row4.setLayout(new GridLayout(1, 3, 0, 30));
         row4.add(sortShipmentsButton);
         row4.add(showDeliveryRouteButton);
         row4.add(printRoutesFromShipmentsButton);
 
-        // Panelleri ana panele ekleme
         panel.add(row1);
         panel.add(row2);
         panel.add(row3);
         panel.add(row4);
 
-        // ActionListener ekleme
         addCustomerButton.addActionListener(e -> customerManagementApp.addCustomerDialog());
         addShipmentButton.addActionListener(e -> customerManagementApp.addShipmentDialog());
         viewAllCustomersButton.addActionListener(e -> customerManagementApp.viewAllCustomers());
@@ -222,7 +220,6 @@ public class GUI {
 
         printRoutesFromShipmentsButton.addActionListener(e -> customerManagementApp.printRoutesFromShipments());
 
-        // Frame'e panel ekleme
         frame.add(panel);
         frame.setVisible(true);
     }
