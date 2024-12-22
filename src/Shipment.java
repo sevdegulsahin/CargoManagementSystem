@@ -4,7 +4,7 @@ import java.time.temporal.ChronoUnit;
 
 class Shipment implements Comparable<Shipment> {
     private int shipmentID; // Kargo ID'si
-    private String date; // Gönderim tarihi, "yyyy-MM-dd" formatında
+    private String date; // Gönderim tarihi, "yıl-ay-gün" formatında
     String deliveryStatus; // Teslimat durumu (örneğin: "Teslim Edildi" veya "Teslim Edilmedi")
     private int deliveryTime; // Teslimat süresi (gün olarak tahmin edilen süre)
     private String city; // Gönderim şehri
@@ -66,8 +66,8 @@ class Shipment implements Comparable<Shipment> {
     // toString metodu, kargonun bilgilerini okunabilir formatta döner
     @Override
     public String toString() {
-        return "Shipment ID: " + shipmentID + ", Date: " + date + ", Status: " + deliveryStatus
-                + ", Delivery Time: " + deliveryTime + " days, City: " + city + ", Customer: " + customer.getName();
+        return "Kargo ID: " + shipmentID + ", Tarih: " + date + ", Durum: " + deliveryStatus
+                + ", Teslimat Süresi: " + deliveryTime + " gün, Teslimat Şehri: " + city + ", Müşteri: " + customer.getName();
     }
 
     // compareTo metodu, kargoları teslim süresine göre sıralar

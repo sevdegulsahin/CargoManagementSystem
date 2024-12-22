@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 
 public class CustomerManagementApp {
     private LinkedList<Customer> customers = new LinkedList<>();
-    private Map<String, Integer> cityDistances = new TreeMap<>();
+
     private TreeNode cityTreeRoot;
     private int shipmentIDCounter = 1000;
 

@@ -19,17 +19,6 @@ class CityTreeVisualizationPanel extends JPanel {
     }
 
 
-    private int calculateMaxLevel(TreeNode node, int currentLevel) {
-        if (node == null) {
-            return currentLevel;
-        }
-
-        int maxDepth = currentLevel;
-        for (TreeNode child : node.children) {
-            maxDepth = Math.max(maxDepth, calculateMaxLevel(child, currentLevel + 1));
-        }
-        return maxDepth;
-    }
 
     private void drawTree(Graphics g, TreeNode node, int x, int y, int xOffset, int yOffset) {
         // Düğümü çiz (Pembe)
