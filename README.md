@@ -71,7 +71,7 @@ The application has been tested with various data sizes to ensure optimal perfor
 
 ## How to Use
 
-Refer to the detailed [User Guide](./docs/user_guide.md) for step-by-step instructions on how to use each feature effectively.
+Refer to the detailed [User Guide](./cargo_management_system_guide%20(1).docx) for step-by-step instructions on how to use each feature effectively.
 
 
 
