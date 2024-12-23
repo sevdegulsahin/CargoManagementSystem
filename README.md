@@ -6,7 +6,7 @@
 
 The application features an intuitive interface, allowing users to perform key actions such as adding customers, tracking shipments, and visualizing delivery routes. It provides a comprehensive toolset for managing and tracking cargo in real-time, enhancing operational efficiency.
 
----
+
 
 ## Features
 
@@ -46,7 +46,7 @@ The application features an intuitive interface, allowing users to perform key a
 12. **Print Delivery Routes**  
     Generate a printable format of shipment delivery routes.
 
----
+
 
 ## Data Structures Used
 
@@ -56,7 +56,7 @@ The application features an intuitive interface, allowing users to perform key a
 - **Stack**: For quick access to recent shipment history.
 - **Sorting and Searching Algorithms**: Binary Search for delivered shipments, Merge Sort for pending shipments.
 
----
+
 
 ## Technical Details
 
@@ -74,13 +74,13 @@ The application has been tested with various data sizes to ensure optimal perfor
 - Using graphs instead of trees for more complex and cyclic delivery routes.
 - Incorporating deque for shipment history for more flexibility.
 
----
+
 
 ## How to Use
 
 Refer to the detailed [User Guide](./docs/user_guide.md) for step-by-step instructions on how to use each feature effectively.
 
----
+
 
 ## Contributors
 
