@@ -8,7 +8,7 @@ public class GUI {
 
     public void showGUI() {
         JFrame frame = new JFrame("Müşteri Yönetimi");
-        frame.setSize(1200, 1000); // Çerçeve boyutu
+        frame.setSize(1000, 800); // Çerçeve boyutu
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Ekranın ortasında açılması
