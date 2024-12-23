@@ -68,13 +68,6 @@ The application has been tested with various data sizes to ensure optimal perfor
 - **Priority Queue** for delivery prioritization: O(log n) complexity.
 - **Binary Search** for shipment queries: O(log n) complexity.
 
-### Suggestions for Future Enhancements
-
-- Transitioning from linked lists to hash tables for faster customer data access.
-- Using graphs instead of trees for more complex and cyclic delivery routes.
-- Incorporating deque for shipment history for more flexibility.
-
-
 
 ## How to Use
 
