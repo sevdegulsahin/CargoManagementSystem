@@ -515,23 +515,23 @@ public class CustomerManagementApp {
             if (selectedCustomerName != null) {
                 for (Customer customer : customers) {
                     if (customer.getName().equalsIgnoreCase(selectedCustomerName)) {
-                        StringBuilder history = new StringBuilder("Müşteri Geçmişi:\n\n");
-
-                        // Müşterinin gönderi geçmişi LinkedList olarak alınıyor
                         LinkedList<Shipment> shipments = customer.getShipmentStack();
 
-                        // ListIterator ile listenin sonuna gidiyoruz
+                        if (shipments.isEmpty()) {
+                            showCustomMessageDialog("Bu müşterinin gönderi geçmişi yok.", "Bilgi", Color.RED, Color.WHITE);
+                            return;
+                        }
+
+                        StringBuilder history = new StringBuilder("Müşteri Geçmişi:\n\n");
                         ListIterator<Shipment> iterator = shipments.listIterator(shipments.size());
                         int count = 0;
 
-                        // Son 5 gönderiyi alıyoruz
                         while (iterator.hasPrevious() && count < 5) {
                             Shipment shipment = iterator.previous();
-                            history.append("- ").append(shipment).append("\n"); // Liste biçimi için tire eklendi
+                            history.append("- ").append(shipment).append("\n");
                             count++;
                         }
 
-                        // Gönderileri düzgün şekilde gösteriyoruz
                         JTextArea textArea = new JTextArea(history.toString());
                         textArea.setEditable(false);
                         textArea.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -550,6 +550,7 @@ public class CustomerManagementApp {
         }
         showCustomMessageDialog("Müşteri bulunamadı.", "Hata", Color.RED, Color.WHITE);
     }
+
 
     private void showCustomMessageDialog(String message, String title, Color bgColor, Color textColor) {
         JPanel panel = new JPanel();
